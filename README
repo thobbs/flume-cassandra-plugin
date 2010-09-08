@@ -1,0 +1,51 @@
+Getting Started
+---------------
+
+1. Copy the flume-cassandra-plugin directory into flume_dir/plugins/.  There
+should also be a helloworld directory there.
+
+2. cd into flume-cassandra-plugin
+
+3. Build by running 'ant'.  A cassandra_plugin.jar file should be created.
+
+4. Modify flume-site.xml (you may start out by copying
+flume-site.xml.template and removing the body of the file) to include:
+
+
+    <configuration>
+      <property>
+        <name>flume.plugin.classes</name>
+        <value>org.apache.cassandra.plugins.SimpleCassandraSink</value>
+        <description>Comma separated list of plugin classes</description>
+      </property>
+    </configuration>
+
+5. cd into the top-level flume directory (above plugins).
+
+6. Set FLUME_CLASSPATH for all terminals which will run Flume master or node:
+
+    export FLUME_CLASSPATH=`pwd`/plugins/flume-cassandra-plugin/cassandra_plugin.jar:`pwd`/plugins/flume-cassandra-plugin/lib/jug-asl-2.0.0.jar
+
+You may want to just put this in your ~/.bashrc file.  If you do, make sure to start a new terminal or run:
+
+    source ~/.bashrc
+
+in any terminals you will use.
+
+
+Usage
+-----
+The Cassandra sink requires four arguments for its constructor:
+
+1. A Cassandra server hostname (String)
+2. The Cassandra server port (int)
+3. A keyspace (String).  For example, 'Keyspace1'.
+4. A ColumnFamily (String).
+
+When the Cassandra sink receives an event, it does the following:
+
+1. Creates a column where the name is a type 1 UUID (timestamp based) and the
+value is the event body.
+2. Inserts it into row "YYYYMMDD" (the current date) in the given ColumnFamily.
+
+As you might guess, this is primarily targets log storage right now.
