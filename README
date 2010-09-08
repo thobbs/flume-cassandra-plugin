@@ -40,17 +40,39 @@ in any terminals you will use.
 
 Usage
 -----
+
+This plugin primarily targets log storage right now.
+
 The Cassandra sink requires four arguments for its constructor:
 
-1. A Cassandra server hostname (String)
-2. The Cassandra server port (int)
-3. A keyspace (String).  For example, 'Keyspace1'.
-4. A ColumnFamily (String).
+1. A keyspace (String).  For example, 'Keyspace1'.
+2. A column family name (String) for storing data in.
+3. A column family name (String) for storing indexes in.
+4. A list Cassandra server hostname:port combinations (Strings)
+
+Cassandra must already be configured so that the keyspace and both of the
+column families must already exist.  The index column family should use
+a TimeUUIDType comparator.  For example, in cassandra.yaml you would have:
+
+    - name: FlumeIndexes
+      compare_with: TimeUUIDType
+      comment: 'Stores the v1 uuids for log events'
+
+The data storage column family can use BytesType.
 
 When the Cassandra sink receives an event, it does the following:
 
-1. Creates a column where the name is a type 1 UUID (timestamp based) and the
-value is the event body.
-2. Inserts it into row "YYYYMMDD" (the current date) in the given ColumnFamily.
+1. In the index column family:
+    a. Creates a column where the name is a type 1 UUID (timestamp based) and the
+       value is empty.
+    b. Inserts it into row "YYYYMMDDHH" (the current date and hour) in the
+       given column family.
+2. In the data column family:
+    a. Creates a column where the name is 'data' and the value is the
+       flume event body.
+    b. Inserts it into a row with a key that is the same uuid from step 1.
 
-As you might guess, this is primarily targets log storage right now.
+This allows you to easily fetch all logs for a slice of time. Simply use
+something like get_slice() on the index column family to get the uuids you
+want for a particular slice of time, and then multiget the data column
+family using those uuids as the keys.
