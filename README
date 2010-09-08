@@ -1,3 +1,8 @@
+flume-cassandra-plugin
+======================
+
+The flume-cassandra-plugin allows you to use Cassandra as a Flume sink.
+
 Getting Started
 ---------------
 
