@@ -63,13 +63,10 @@ The data storage column family can use BytesType.
 When the Cassandra sink receives an event, it does the following:
 
 1. In the index column family:
-    a. Creates a column where the name is a type 1 UUID (timestamp based) and the
-       value is empty.
-    b. Inserts it into row "YYYYMMDDHH" (the current date and hour) in the
-       given column family.
+    a. Creates a column where the name is a type 1 UUID (timestamp based) and the value is empty.
+    b. Inserts it into row "YYYYMMDDHH" (the current date and hour) in the given column family.
 2. In the data column family:
-    a. Creates a column where the name is 'data' and the value is the
-       flume event body.
+    a. Creates a column where the name is 'data' and the value is the flume event body.
     b. Inserts it into a row with a key that is the same uuid from step 1.
 
 This allows you to easily fetch all logs for a slice of time. Simply use
