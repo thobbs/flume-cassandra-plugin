@@ -118,7 +118,7 @@ public class CassandraClient {
       this.open();
       batchMutate(mutationMap, consistencyLevel);
     } catch (InvalidRequestException exc) {
-      new IOException(exc.toString()); 
+      throw new IOException(exc.toString()); 
     } catch (TException exc) {
       throw new IOException(exc.toString());
     }
