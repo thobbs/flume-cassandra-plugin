@@ -87,8 +87,9 @@ The Logsandra Syslog Sink allows syslog messages to be stored in Cassandra
 in a way that Logsandra can make use of them.  You can find Logsandra
 here:
 
-[Cassandra 0.6.x and pycassa 0.3.0 compatible version](http://github.com/jbohman/logsandra)
-[Cassandra 0.7.0 and pycassa 0.5.0 compatible version](http://github.com/thobbs/logsandra)
+* [Cassandra 0.6.x and pycassa 0.3.0 compatible version](http://github.com/jbohman/logsandra)
+
+* [Cassandra 0.7.0 and pycassa 0.5.0 compatible version](http://github.com/thobbs/logsandra)
 
 The Logsandra Syslog Sink accepts a list of "host:port" for its constructor.
 
