@@ -29,55 +29,67 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
   private static final TField KEYSPACE_FIELD_DESC = new TField("keyspace", TType.STRING, (short)1);
   private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)2);
   private static final TField COLUMN_TYPE_FIELD_DESC = new TField("column_type", TType.STRING, (short)3);
-  private static final TField CLOCK_TYPE_FIELD_DESC = new TField("clock_type", TType.STRING, (short)4);
   private static final TField COMPARATOR_TYPE_FIELD_DESC = new TField("comparator_type", TType.STRING, (short)5);
   private static final TField SUBCOMPARATOR_TYPE_FIELD_DESC = new TField("subcomparator_type", TType.STRING, (short)6);
-  private static final TField RECONCILER_FIELD_DESC = new TField("reconciler", TType.STRING, (short)7);
   private static final TField COMMENT_FIELD_DESC = new TField("comment", TType.STRING, (short)8);
   private static final TField ROW_CACHE_SIZE_FIELD_DESC = new TField("row_cache_size", TType.DOUBLE, (short)9);
-  private static final TField PRELOAD_ROW_CACHE_FIELD_DESC = new TField("preload_row_cache", TType.BOOL, (short)10);
   private static final TField KEY_CACHE_SIZE_FIELD_DESC = new TField("key_cache_size", TType.DOUBLE, (short)11);
   private static final TField READ_REPAIR_CHANCE_FIELD_DESC = new TField("read_repair_chance", TType.DOUBLE, (short)12);
   private static final TField COLUMN_METADATA_FIELD_DESC = new TField("column_metadata", TType.LIST, (short)13);
   private static final TField GC_GRACE_SECONDS_FIELD_DESC = new TField("gc_grace_seconds", TType.I32, (short)14);
   private static final TField DEFAULT_VALIDATION_CLASS_FIELD_DESC = new TField("default_validation_class", TType.STRING, (short)15);
   private static final TField ID_FIELD_DESC = new TField("id", TType.I32, (short)16);
+  private static final TField MIN_COMPACTION_THRESHOLD_FIELD_DESC = new TField("min_compaction_threshold", TType.I32, (short)17);
+  private static final TField MAX_COMPACTION_THRESHOLD_FIELD_DESC = new TField("max_compaction_threshold", TType.I32, (short)18);
+  private static final TField ROW_CACHE_SAVE_PERIOD_IN_SECONDS_FIELD_DESC = new TField("row_cache_save_period_in_seconds", TType.I32, (short)19);
+  private static final TField KEY_CACHE_SAVE_PERIOD_IN_SECONDS_FIELD_DESC = new TField("key_cache_save_period_in_seconds", TType.I32, (short)20);
+  private static final TField MEMTABLE_FLUSH_AFTER_MINS_FIELD_DESC = new TField("memtable_flush_after_mins", TType.I32, (short)21);
+  private static final TField MEMTABLE_THROUGHPUT_IN_MB_FIELD_DESC = new TField("memtable_throughput_in_mb", TType.I32, (short)22);
+  private static final TField MEMTABLE_OPERATIONS_IN_MILLIONS_FIELD_DESC = new TField("memtable_operations_in_millions", TType.DOUBLE, (short)23);
 
   public String keyspace;
   public String name;
   public String column_type;
-  public String clock_type;
   public String comparator_type;
   public String subcomparator_type;
-  public String reconciler;
   public String comment;
   public double row_cache_size;
-  public boolean preload_row_cache;
   public double key_cache_size;
   public double read_repair_chance;
   public List<ColumnDef> column_metadata;
   public int gc_grace_seconds;
   public String default_validation_class;
   public int id;
+  public int min_compaction_threshold;
+  public int max_compaction_threshold;
+  public int row_cache_save_period_in_seconds;
+  public int key_cache_save_period_in_seconds;
+  public int memtable_flush_after_mins;
+  public int memtable_throughput_in_mb;
+  public double memtable_operations_in_millions;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements TFieldIdEnum {
     KEYSPACE((short)1, "keyspace"),
     NAME((short)2, "name"),
     COLUMN_TYPE((short)3, "column_type"),
-    CLOCK_TYPE((short)4, "clock_type"),
     COMPARATOR_TYPE((short)5, "comparator_type"),
     SUBCOMPARATOR_TYPE((short)6, "subcomparator_type"),
-    RECONCILER((short)7, "reconciler"),
     COMMENT((short)8, "comment"),
     ROW_CACHE_SIZE((short)9, "row_cache_size"),
-    PRELOAD_ROW_CACHE((short)10, "preload_row_cache"),
     KEY_CACHE_SIZE((short)11, "key_cache_size"),
     READ_REPAIR_CHANCE((short)12, "read_repair_chance"),
     COLUMN_METADATA((short)13, "column_metadata"),
     GC_GRACE_SECONDS((short)14, "gc_grace_seconds"),
     DEFAULT_VALIDATION_CLASS((short)15, "default_validation_class"),
-    ID((short)16, "id");
+    ID((short)16, "id"),
+    MIN_COMPACTION_THRESHOLD((short)17, "min_compaction_threshold"),
+    MAX_COMPACTION_THRESHOLD((short)18, "max_compaction_threshold"),
+    ROW_CACHE_SAVE_PERIOD_IN_SECONDS((short)19, "row_cache_save_period_in_seconds"),
+    KEY_CACHE_SAVE_PERIOD_IN_SECONDS((short)20, "key_cache_save_period_in_seconds"),
+    MEMTABLE_FLUSH_AFTER_MINS((short)21, "memtable_flush_after_mins"),
+    MEMTABLE_THROUGHPUT_IN_MB((short)22, "memtable_throughput_in_mb"),
+    MEMTABLE_OPERATIONS_IN_MILLIONS((short)23, "memtable_operations_in_millions");
 
     private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -132,12 +144,18 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
 
   // isset id assignments
   private static final int __ROW_CACHE_SIZE_ISSET_ID = 0;
-  private static final int __PRELOAD_ROW_CACHE_ISSET_ID = 1;
-  private static final int __KEY_CACHE_SIZE_ISSET_ID = 2;
-  private static final int __READ_REPAIR_CHANCE_ISSET_ID = 3;
-  private static final int __GC_GRACE_SECONDS_ISSET_ID = 4;
-  private static final int __ID_ISSET_ID = 5;
-  private BitSet __isset_bit_vector = new BitSet(6);
+  private static final int __KEY_CACHE_SIZE_ISSET_ID = 1;
+  private static final int __READ_REPAIR_CHANCE_ISSET_ID = 2;
+  private static final int __GC_GRACE_SECONDS_ISSET_ID = 3;
+  private static final int __ID_ISSET_ID = 4;
+  private static final int __MIN_COMPACTION_THRESHOLD_ISSET_ID = 5;
+  private static final int __MAX_COMPACTION_THRESHOLD_ISSET_ID = 6;
+  private static final int __ROW_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID = 7;
+  private static final int __KEY_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID = 8;
+  private static final int __MEMTABLE_FLUSH_AFTER_MINS_ISSET_ID = 9;
+  private static final int __MEMTABLE_THROUGHPUT_IN_MB_ISSET_ID = 10;
+  private static final int __MEMTABLE_OPERATIONS_IN_MILLIONS_ISSET_ID = 11;
+  private BitSet __isset_bit_vector = new BitSet(12);
 
   public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
     put(_Fields.KEYSPACE, new FieldMetaData("keyspace", TFieldRequirementType.REQUIRED, 
@@ -146,20 +164,14 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         new FieldValueMetaData(TType.STRING)));
     put(_Fields.COLUMN_TYPE, new FieldMetaData("column_type", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.STRING)));
-    put(_Fields.CLOCK_TYPE, new FieldMetaData("clock_type", TFieldRequirementType.OPTIONAL, 
-        new FieldValueMetaData(TType.STRING)));
     put(_Fields.COMPARATOR_TYPE, new FieldMetaData("comparator_type", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.STRING)));
     put(_Fields.SUBCOMPARATOR_TYPE, new FieldMetaData("subcomparator_type", TFieldRequirementType.OPTIONAL, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.RECONCILER, new FieldMetaData("reconciler", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.STRING)));
     put(_Fields.COMMENT, new FieldMetaData("comment", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.STRING)));
     put(_Fields.ROW_CACHE_SIZE, new FieldMetaData("row_cache_size", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.DOUBLE)));
-    put(_Fields.PRELOAD_ROW_CACHE, new FieldMetaData("preload_row_cache", TFieldRequirementType.OPTIONAL, 
-        new FieldValueMetaData(TType.BOOL)));
     put(_Fields.KEY_CACHE_SIZE, new FieldMetaData("key_cache_size", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.DOUBLE)));
     put(_Fields.READ_REPAIR_CHANCE, new FieldMetaData("read_repair_chance", TFieldRequirementType.OPTIONAL, 
@@ -173,6 +185,20 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         new FieldValueMetaData(TType.STRING)));
     put(_Fields.ID, new FieldMetaData("id", TFieldRequirementType.OPTIONAL, 
         new FieldValueMetaData(TType.I32)));
+    put(_Fields.MIN_COMPACTION_THRESHOLD, new FieldMetaData("min_compaction_threshold", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.MAX_COMPACTION_THRESHOLD, new FieldMetaData("max_compaction_threshold", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.ROW_CACHE_SAVE_PERIOD_IN_SECONDS, new FieldMetaData("row_cache_save_period_in_seconds", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.KEY_CACHE_SAVE_PERIOD_IN_SECONDS, new FieldMetaData("key_cache_save_period_in_seconds", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.MEMTABLE_FLUSH_AFTER_MINS, new FieldMetaData("memtable_flush_after_mins", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.MEMTABLE_THROUGHPUT_IN_MB, new FieldMetaData("memtable_throughput_in_mb", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.I32)));
+    put(_Fields.MEMTABLE_OPERATIONS_IN_MILLIONS, new FieldMetaData("memtable_operations_in_millions", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.DOUBLE)));
   }});
 
   static {
@@ -182,19 +208,9 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
   public CfDef() {
     this.column_type = "Standard";
 
-    this.clock_type = "Timestamp";
-
     this.comparator_type = "BytesType";
 
-    this.subcomparator_type = "";
-
-    this.reconciler = "";
-
-    this.comment = "";
-
     this.row_cache_size = (double)0;
-
-    this.preload_row_cache = false;
 
     this.key_cache_size = (double)200000;
 
@@ -226,23 +242,16 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     if (other.isSetColumn_type()) {
       this.column_type = other.column_type;
     }
-    if (other.isSetClock_type()) {
-      this.clock_type = other.clock_type;
-    }
     if (other.isSetComparator_type()) {
       this.comparator_type = other.comparator_type;
     }
     if (other.isSetSubcomparator_type()) {
       this.subcomparator_type = other.subcomparator_type;
     }
-    if (other.isSetReconciler()) {
-      this.reconciler = other.reconciler;
-    }
     if (other.isSetComment()) {
       this.comment = other.comment;
     }
     this.row_cache_size = other.row_cache_size;
-    this.preload_row_cache = other.preload_row_cache;
     this.key_cache_size = other.key_cache_size;
     this.read_repair_chance = other.read_repair_chance;
     if (other.isSetColumn_metadata()) {
@@ -257,6 +266,13 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       this.default_validation_class = other.default_validation_class;
     }
     this.id = other.id;
+    this.min_compaction_threshold = other.min_compaction_threshold;
+    this.max_compaction_threshold = other.max_compaction_threshold;
+    this.row_cache_save_period_in_seconds = other.row_cache_save_period_in_seconds;
+    this.key_cache_save_period_in_seconds = other.key_cache_save_period_in_seconds;
+    this.memtable_flush_after_mins = other.memtable_flush_after_mins;
+    this.memtable_throughput_in_mb = other.memtable_throughput_in_mb;
+    this.memtable_operations_in_millions = other.memtable_operations_in_millions;
   }
 
   public CfDef deepCopy() {
@@ -340,30 +356,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     }
   }
 
-  public String getClock_type() {
-    return this.clock_type;
-  }
-
-  public CfDef setClock_type(String clock_type) {
-    this.clock_type = clock_type;
-    return this;
-  }
-
-  public void unsetClock_type() {
-    this.clock_type = null;
-  }
-
-  /** Returns true if field clock_type is set (has been asigned a value) and false otherwise */
-  public boolean isSetClock_type() {
-    return this.clock_type != null;
-  }
-
-  public void setClock_typeIsSet(boolean value) {
-    if (!value) {
-      this.clock_type = null;
-    }
-  }
-
   public String getComparator_type() {
     return this.comparator_type;
   }
@@ -412,30 +404,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     }
   }
 
-  public String getReconciler() {
-    return this.reconciler;
-  }
-
-  public CfDef setReconciler(String reconciler) {
-    this.reconciler = reconciler;
-    return this;
-  }
-
-  public void unsetReconciler() {
-    this.reconciler = null;
-  }
-
-  /** Returns true if field reconciler is set (has been asigned a value) and false otherwise */
-  public boolean isSetReconciler() {
-    return this.reconciler != null;
-  }
-
-  public void setReconcilerIsSet(boolean value) {
-    if (!value) {
-      this.reconciler = null;
-    }
-  }
-
   public String getComment() {
     return this.comment;
   }
@@ -481,29 +449,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
 
   public void setRow_cache_sizeIsSet(boolean value) {
     __isset_bit_vector.set(__ROW_CACHE_SIZE_ISSET_ID, value);
-  }
-
-  public boolean isPreload_row_cache() {
-    return this.preload_row_cache;
-  }
-
-  public CfDef setPreload_row_cache(boolean preload_row_cache) {
-    this.preload_row_cache = preload_row_cache;
-    setPreload_row_cacheIsSet(true);
-    return this;
-  }
-
-  public void unsetPreload_row_cache() {
-    __isset_bit_vector.clear(__PRELOAD_ROW_CACHE_ISSET_ID);
-  }
-
-  /** Returns true if field preload_row_cache is set (has been asigned a value) and false otherwise */
-  public boolean isSetPreload_row_cache() {
-    return __isset_bit_vector.get(__PRELOAD_ROW_CACHE_ISSET_ID);
-  }
-
-  public void setPreload_row_cacheIsSet(boolean value) {
-    __isset_bit_vector.set(__PRELOAD_ROW_CACHE_ISSET_ID, value);
   }
 
   public double getKey_cache_size() {
@@ -661,6 +606,167 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     __isset_bit_vector.set(__ID_ISSET_ID, value);
   }
 
+  public int getMin_compaction_threshold() {
+    return this.min_compaction_threshold;
+  }
+
+  public CfDef setMin_compaction_threshold(int min_compaction_threshold) {
+    this.min_compaction_threshold = min_compaction_threshold;
+    setMin_compaction_thresholdIsSet(true);
+    return this;
+  }
+
+  public void unsetMin_compaction_threshold() {
+    __isset_bit_vector.clear(__MIN_COMPACTION_THRESHOLD_ISSET_ID);
+  }
+
+  /** Returns true if field min_compaction_threshold is set (has been asigned a value) and false otherwise */
+  public boolean isSetMin_compaction_threshold() {
+    return __isset_bit_vector.get(__MIN_COMPACTION_THRESHOLD_ISSET_ID);
+  }
+
+  public void setMin_compaction_thresholdIsSet(boolean value) {
+    __isset_bit_vector.set(__MIN_COMPACTION_THRESHOLD_ISSET_ID, value);
+  }
+
+  public int getMax_compaction_threshold() {
+    return this.max_compaction_threshold;
+  }
+
+  public CfDef setMax_compaction_threshold(int max_compaction_threshold) {
+    this.max_compaction_threshold = max_compaction_threshold;
+    setMax_compaction_thresholdIsSet(true);
+    return this;
+  }
+
+  public void unsetMax_compaction_threshold() {
+    __isset_bit_vector.clear(__MAX_COMPACTION_THRESHOLD_ISSET_ID);
+  }
+
+  /** Returns true if field max_compaction_threshold is set (has been asigned a value) and false otherwise */
+  public boolean isSetMax_compaction_threshold() {
+    return __isset_bit_vector.get(__MAX_COMPACTION_THRESHOLD_ISSET_ID);
+  }
+
+  public void setMax_compaction_thresholdIsSet(boolean value) {
+    __isset_bit_vector.set(__MAX_COMPACTION_THRESHOLD_ISSET_ID, value);
+  }
+
+  public int getRow_cache_save_period_in_seconds() {
+    return this.row_cache_save_period_in_seconds;
+  }
+
+  public CfDef setRow_cache_save_period_in_seconds(int row_cache_save_period_in_seconds) {
+    this.row_cache_save_period_in_seconds = row_cache_save_period_in_seconds;
+    setRow_cache_save_period_in_secondsIsSet(true);
+    return this;
+  }
+
+  public void unsetRow_cache_save_period_in_seconds() {
+    __isset_bit_vector.clear(__ROW_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID);
+  }
+
+  /** Returns true if field row_cache_save_period_in_seconds is set (has been asigned a value) and false otherwise */
+  public boolean isSetRow_cache_save_period_in_seconds() {
+    return __isset_bit_vector.get(__ROW_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID);
+  }
+
+  public void setRow_cache_save_period_in_secondsIsSet(boolean value) {
+    __isset_bit_vector.set(__ROW_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID, value);
+  }
+
+  public int getKey_cache_save_period_in_seconds() {
+    return this.key_cache_save_period_in_seconds;
+  }
+
+  public CfDef setKey_cache_save_period_in_seconds(int key_cache_save_period_in_seconds) {
+    this.key_cache_save_period_in_seconds = key_cache_save_period_in_seconds;
+    setKey_cache_save_period_in_secondsIsSet(true);
+    return this;
+  }
+
+  public void unsetKey_cache_save_period_in_seconds() {
+    __isset_bit_vector.clear(__KEY_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID);
+  }
+
+  /** Returns true if field key_cache_save_period_in_seconds is set (has been asigned a value) and false otherwise */
+  public boolean isSetKey_cache_save_period_in_seconds() {
+    return __isset_bit_vector.get(__KEY_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID);
+  }
+
+  public void setKey_cache_save_period_in_secondsIsSet(boolean value) {
+    __isset_bit_vector.set(__KEY_CACHE_SAVE_PERIOD_IN_SECONDS_ISSET_ID, value);
+  }
+
+  public int getMemtable_flush_after_mins() {
+    return this.memtable_flush_after_mins;
+  }
+
+  public CfDef setMemtable_flush_after_mins(int memtable_flush_after_mins) {
+    this.memtable_flush_after_mins = memtable_flush_after_mins;
+    setMemtable_flush_after_minsIsSet(true);
+    return this;
+  }
+
+  public void unsetMemtable_flush_after_mins() {
+    __isset_bit_vector.clear(__MEMTABLE_FLUSH_AFTER_MINS_ISSET_ID);
+  }
+
+  /** Returns true if field memtable_flush_after_mins is set (has been asigned a value) and false otherwise */
+  public boolean isSetMemtable_flush_after_mins() {
+    return __isset_bit_vector.get(__MEMTABLE_FLUSH_AFTER_MINS_ISSET_ID);
+  }
+
+  public void setMemtable_flush_after_minsIsSet(boolean value) {
+    __isset_bit_vector.set(__MEMTABLE_FLUSH_AFTER_MINS_ISSET_ID, value);
+  }
+
+  public int getMemtable_throughput_in_mb() {
+    return this.memtable_throughput_in_mb;
+  }
+
+  public CfDef setMemtable_throughput_in_mb(int memtable_throughput_in_mb) {
+    this.memtable_throughput_in_mb = memtable_throughput_in_mb;
+    setMemtable_throughput_in_mbIsSet(true);
+    return this;
+  }
+
+  public void unsetMemtable_throughput_in_mb() {
+    __isset_bit_vector.clear(__MEMTABLE_THROUGHPUT_IN_MB_ISSET_ID);
+  }
+
+  /** Returns true if field memtable_throughput_in_mb is set (has been asigned a value) and false otherwise */
+  public boolean isSetMemtable_throughput_in_mb() {
+    return __isset_bit_vector.get(__MEMTABLE_THROUGHPUT_IN_MB_ISSET_ID);
+  }
+
+  public void setMemtable_throughput_in_mbIsSet(boolean value) {
+    __isset_bit_vector.set(__MEMTABLE_THROUGHPUT_IN_MB_ISSET_ID, value);
+  }
+
+  public double getMemtable_operations_in_millions() {
+    return this.memtable_operations_in_millions;
+  }
+
+  public CfDef setMemtable_operations_in_millions(double memtable_operations_in_millions) {
+    this.memtable_operations_in_millions = memtable_operations_in_millions;
+    setMemtable_operations_in_millionsIsSet(true);
+    return this;
+  }
+
+  public void unsetMemtable_operations_in_millions() {
+    __isset_bit_vector.clear(__MEMTABLE_OPERATIONS_IN_MILLIONS_ISSET_ID);
+  }
+
+  /** Returns true if field memtable_operations_in_millions is set (has been asigned a value) and false otherwise */
+  public boolean isSetMemtable_operations_in_millions() {
+    return __isset_bit_vector.get(__MEMTABLE_OPERATIONS_IN_MILLIONS_ISSET_ID);
+  }
+
+  public void setMemtable_operations_in_millionsIsSet(boolean value) {
+    __isset_bit_vector.set(__MEMTABLE_OPERATIONS_IN_MILLIONS_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case KEYSPACE:
@@ -687,14 +793,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       }
       break;
 
-    case CLOCK_TYPE:
-      if (value == null) {
-        unsetClock_type();
-      } else {
-        setClock_type((String)value);
-      }
-      break;
-
     case COMPARATOR_TYPE:
       if (value == null) {
         unsetComparator_type();
@@ -711,14 +809,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       }
       break;
 
-    case RECONCILER:
-      if (value == null) {
-        unsetReconciler();
-      } else {
-        setReconciler((String)value);
-      }
-      break;
-
     case COMMENT:
       if (value == null) {
         unsetComment();
@@ -732,14 +822,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         unsetRow_cache_size();
       } else {
         setRow_cache_size((Double)value);
-      }
-      break;
-
-    case PRELOAD_ROW_CACHE:
-      if (value == null) {
-        unsetPreload_row_cache();
-      } else {
-        setPreload_row_cache((Boolean)value);
       }
       break;
 
@@ -791,6 +873,62 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       }
       break;
 
+    case MIN_COMPACTION_THRESHOLD:
+      if (value == null) {
+        unsetMin_compaction_threshold();
+      } else {
+        setMin_compaction_threshold((Integer)value);
+      }
+      break;
+
+    case MAX_COMPACTION_THRESHOLD:
+      if (value == null) {
+        unsetMax_compaction_threshold();
+      } else {
+        setMax_compaction_threshold((Integer)value);
+      }
+      break;
+
+    case ROW_CACHE_SAVE_PERIOD_IN_SECONDS:
+      if (value == null) {
+        unsetRow_cache_save_period_in_seconds();
+      } else {
+        setRow_cache_save_period_in_seconds((Integer)value);
+      }
+      break;
+
+    case KEY_CACHE_SAVE_PERIOD_IN_SECONDS:
+      if (value == null) {
+        unsetKey_cache_save_period_in_seconds();
+      } else {
+        setKey_cache_save_period_in_seconds((Integer)value);
+      }
+      break;
+
+    case MEMTABLE_FLUSH_AFTER_MINS:
+      if (value == null) {
+        unsetMemtable_flush_after_mins();
+      } else {
+        setMemtable_flush_after_mins((Integer)value);
+      }
+      break;
+
+    case MEMTABLE_THROUGHPUT_IN_MB:
+      if (value == null) {
+        unsetMemtable_throughput_in_mb();
+      } else {
+        setMemtable_throughput_in_mb((Integer)value);
+      }
+      break;
+
+    case MEMTABLE_OPERATIONS_IN_MILLIONS:
+      if (value == null) {
+        unsetMemtable_operations_in_millions();
+      } else {
+        setMemtable_operations_in_millions((Double)value);
+      }
+      break;
+
     }
   }
 
@@ -809,26 +947,17 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     case COLUMN_TYPE:
       return getColumn_type();
 
-    case CLOCK_TYPE:
-      return getClock_type();
-
     case COMPARATOR_TYPE:
       return getComparator_type();
 
     case SUBCOMPARATOR_TYPE:
       return getSubcomparator_type();
 
-    case RECONCILER:
-      return getReconciler();
-
     case COMMENT:
       return getComment();
 
     case ROW_CACHE_SIZE:
       return new Double(getRow_cache_size());
-
-    case PRELOAD_ROW_CACHE:
-      return new Boolean(isPreload_row_cache());
 
     case KEY_CACHE_SIZE:
       return new Double(getKey_cache_size());
@@ -848,6 +977,27 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     case ID:
       return new Integer(getId());
 
+    case MIN_COMPACTION_THRESHOLD:
+      return new Integer(getMin_compaction_threshold());
+
+    case MAX_COMPACTION_THRESHOLD:
+      return new Integer(getMax_compaction_threshold());
+
+    case ROW_CACHE_SAVE_PERIOD_IN_SECONDS:
+      return new Integer(getRow_cache_save_period_in_seconds());
+
+    case KEY_CACHE_SAVE_PERIOD_IN_SECONDS:
+      return new Integer(getKey_cache_save_period_in_seconds());
+
+    case MEMTABLE_FLUSH_AFTER_MINS:
+      return new Integer(getMemtable_flush_after_mins());
+
+    case MEMTABLE_THROUGHPUT_IN_MB:
+      return new Integer(getMemtable_throughput_in_mb());
+
+    case MEMTABLE_OPERATIONS_IN_MILLIONS:
+      return new Double(getMemtable_operations_in_millions());
+
     }
     throw new IllegalStateException();
   }
@@ -865,20 +1015,14 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       return isSetName();
     case COLUMN_TYPE:
       return isSetColumn_type();
-    case CLOCK_TYPE:
-      return isSetClock_type();
     case COMPARATOR_TYPE:
       return isSetComparator_type();
     case SUBCOMPARATOR_TYPE:
       return isSetSubcomparator_type();
-    case RECONCILER:
-      return isSetReconciler();
     case COMMENT:
       return isSetComment();
     case ROW_CACHE_SIZE:
       return isSetRow_cache_size();
-    case PRELOAD_ROW_CACHE:
-      return isSetPreload_row_cache();
     case KEY_CACHE_SIZE:
       return isSetKey_cache_size();
     case READ_REPAIR_CHANCE:
@@ -891,6 +1035,20 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       return isSetDefault_validation_class();
     case ID:
       return isSetId();
+    case MIN_COMPACTION_THRESHOLD:
+      return isSetMin_compaction_threshold();
+    case MAX_COMPACTION_THRESHOLD:
+      return isSetMax_compaction_threshold();
+    case ROW_CACHE_SAVE_PERIOD_IN_SECONDS:
+      return isSetRow_cache_save_period_in_seconds();
+    case KEY_CACHE_SAVE_PERIOD_IN_SECONDS:
+      return isSetKey_cache_save_period_in_seconds();
+    case MEMTABLE_FLUSH_AFTER_MINS:
+      return isSetMemtable_flush_after_mins();
+    case MEMTABLE_THROUGHPUT_IN_MB:
+      return isSetMemtable_throughput_in_mb();
+    case MEMTABLE_OPERATIONS_IN_MILLIONS:
+      return isSetMemtable_operations_in_millions();
     }
     throw new IllegalStateException();
   }
@@ -939,15 +1097,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         return false;
     }
 
-    boolean this_present_clock_type = true && this.isSetClock_type();
-    boolean that_present_clock_type = true && that.isSetClock_type();
-    if (this_present_clock_type || that_present_clock_type) {
-      if (!(this_present_clock_type && that_present_clock_type))
-        return false;
-      if (!this.clock_type.equals(that.clock_type))
-        return false;
-    }
-
     boolean this_present_comparator_type = true && this.isSetComparator_type();
     boolean that_present_comparator_type = true && that.isSetComparator_type();
     if (this_present_comparator_type || that_present_comparator_type) {
@@ -966,15 +1115,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         return false;
     }
 
-    boolean this_present_reconciler = true && this.isSetReconciler();
-    boolean that_present_reconciler = true && that.isSetReconciler();
-    if (this_present_reconciler || that_present_reconciler) {
-      if (!(this_present_reconciler && that_present_reconciler))
-        return false;
-      if (!this.reconciler.equals(that.reconciler))
-        return false;
-    }
-
     boolean this_present_comment = true && this.isSetComment();
     boolean that_present_comment = true && that.isSetComment();
     if (this_present_comment || that_present_comment) {
@@ -990,15 +1130,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       if (!(this_present_row_cache_size && that_present_row_cache_size))
         return false;
       if (this.row_cache_size != that.row_cache_size)
-        return false;
-    }
-
-    boolean this_present_preload_row_cache = true && this.isSetPreload_row_cache();
-    boolean that_present_preload_row_cache = true && that.isSetPreload_row_cache();
-    if (this_present_preload_row_cache || that_present_preload_row_cache) {
-      if (!(this_present_preload_row_cache && that_present_preload_row_cache))
-        return false;
-      if (this.preload_row_cache != that.preload_row_cache)
         return false;
     }
 
@@ -1056,6 +1187,69 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         return false;
     }
 
+    boolean this_present_min_compaction_threshold = true && this.isSetMin_compaction_threshold();
+    boolean that_present_min_compaction_threshold = true && that.isSetMin_compaction_threshold();
+    if (this_present_min_compaction_threshold || that_present_min_compaction_threshold) {
+      if (!(this_present_min_compaction_threshold && that_present_min_compaction_threshold))
+        return false;
+      if (this.min_compaction_threshold != that.min_compaction_threshold)
+        return false;
+    }
+
+    boolean this_present_max_compaction_threshold = true && this.isSetMax_compaction_threshold();
+    boolean that_present_max_compaction_threshold = true && that.isSetMax_compaction_threshold();
+    if (this_present_max_compaction_threshold || that_present_max_compaction_threshold) {
+      if (!(this_present_max_compaction_threshold && that_present_max_compaction_threshold))
+        return false;
+      if (this.max_compaction_threshold != that.max_compaction_threshold)
+        return false;
+    }
+
+    boolean this_present_row_cache_save_period_in_seconds = true && this.isSetRow_cache_save_period_in_seconds();
+    boolean that_present_row_cache_save_period_in_seconds = true && that.isSetRow_cache_save_period_in_seconds();
+    if (this_present_row_cache_save_period_in_seconds || that_present_row_cache_save_period_in_seconds) {
+      if (!(this_present_row_cache_save_period_in_seconds && that_present_row_cache_save_period_in_seconds))
+        return false;
+      if (this.row_cache_save_period_in_seconds != that.row_cache_save_period_in_seconds)
+        return false;
+    }
+
+    boolean this_present_key_cache_save_period_in_seconds = true && this.isSetKey_cache_save_period_in_seconds();
+    boolean that_present_key_cache_save_period_in_seconds = true && that.isSetKey_cache_save_period_in_seconds();
+    if (this_present_key_cache_save_period_in_seconds || that_present_key_cache_save_period_in_seconds) {
+      if (!(this_present_key_cache_save_period_in_seconds && that_present_key_cache_save_period_in_seconds))
+        return false;
+      if (this.key_cache_save_period_in_seconds != that.key_cache_save_period_in_seconds)
+        return false;
+    }
+
+    boolean this_present_memtable_flush_after_mins = true && this.isSetMemtable_flush_after_mins();
+    boolean that_present_memtable_flush_after_mins = true && that.isSetMemtable_flush_after_mins();
+    if (this_present_memtable_flush_after_mins || that_present_memtable_flush_after_mins) {
+      if (!(this_present_memtable_flush_after_mins && that_present_memtable_flush_after_mins))
+        return false;
+      if (this.memtable_flush_after_mins != that.memtable_flush_after_mins)
+        return false;
+    }
+
+    boolean this_present_memtable_throughput_in_mb = true && this.isSetMemtable_throughput_in_mb();
+    boolean that_present_memtable_throughput_in_mb = true && that.isSetMemtable_throughput_in_mb();
+    if (this_present_memtable_throughput_in_mb || that_present_memtable_throughput_in_mb) {
+      if (!(this_present_memtable_throughput_in_mb && that_present_memtable_throughput_in_mb))
+        return false;
+      if (this.memtable_throughput_in_mb != that.memtable_throughput_in_mb)
+        return false;
+    }
+
+    boolean this_present_memtable_operations_in_millions = true && this.isSetMemtable_operations_in_millions();
+    boolean that_present_memtable_operations_in_millions = true && that.isSetMemtable_operations_in_millions();
+    if (this_present_memtable_operations_in_millions || that_present_memtable_operations_in_millions) {
+      if (!(this_present_memtable_operations_in_millions && that_present_memtable_operations_in_millions))
+        return false;
+      if (this.memtable_operations_in_millions != that.memtable_operations_in_millions)
+        return false;
+    }
+
     return true;
   }
 
@@ -1096,14 +1290,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetClock_type()).compareTo(isSetClock_type());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(clock_type, typedOther.clock_type);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
     lastComparison = Boolean.valueOf(isSetComparator_type()).compareTo(isSetComparator_type());
     if (lastComparison != 0) {
       return lastComparison;
@@ -1120,14 +1306,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetReconciler()).compareTo(isSetReconciler());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(reconciler, typedOther.reconciler);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
     lastComparison = Boolean.valueOf(isSetComment()).compareTo(isSetComment());
     if (lastComparison != 0) {
       return lastComparison;
@@ -1141,14 +1319,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       return lastComparison;
     }
     lastComparison = TBaseHelper.compareTo(row_cache_size, typedOther.row_cache_size);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = Boolean.valueOf(isSetPreload_row_cache()).compareTo(isSetPreload_row_cache());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(preload_row_cache, typedOther.preload_row_cache);
     if (lastComparison != 0) {
       return lastComparison;
     }
@@ -1200,6 +1370,62 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     if (lastComparison != 0) {
       return lastComparison;
     }
+    lastComparison = Boolean.valueOf(isSetMin_compaction_threshold()).compareTo(isSetMin_compaction_threshold());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(min_compaction_threshold, typedOther.min_compaction_threshold);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetMax_compaction_threshold()).compareTo(isSetMax_compaction_threshold());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(max_compaction_threshold, typedOther.max_compaction_threshold);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetRow_cache_save_period_in_seconds()).compareTo(isSetRow_cache_save_period_in_seconds());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(row_cache_save_period_in_seconds, typedOther.row_cache_save_period_in_seconds);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetKey_cache_save_period_in_seconds()).compareTo(isSetKey_cache_save_period_in_seconds());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(key_cache_save_period_in_seconds, typedOther.key_cache_save_period_in_seconds);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetMemtable_flush_after_mins()).compareTo(isSetMemtable_flush_after_mins());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(memtable_flush_after_mins, typedOther.memtable_flush_after_mins);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetMemtable_throughput_in_mb()).compareTo(isSetMemtable_throughput_in_mb());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(memtable_throughput_in_mb, typedOther.memtable_throughput_in_mb);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetMemtable_operations_in_millions()).compareTo(isSetMemtable_operations_in_millions());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(memtable_operations_in_millions, typedOther.memtable_operations_in_millions);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
     return 0;
   }
 
@@ -1238,13 +1464,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
               TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case CLOCK_TYPE:
-            if (field.type == TType.STRING) {
-              this.clock_type = iprot.readString();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
           case COMPARATOR_TYPE:
             if (field.type == TType.STRING) {
               this.comparator_type = iprot.readString();
@@ -1255,13 +1474,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
           case SUBCOMPARATOR_TYPE:
             if (field.type == TType.STRING) {
               this.subcomparator_type = iprot.readString();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case RECONCILER:
-            if (field.type == TType.STRING) {
-              this.reconciler = iprot.readString();
             } else { 
               TProtocolUtil.skip(iprot, field.type);
             }
@@ -1277,14 +1489,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
             if (field.type == TType.DOUBLE) {
               this.row_cache_size = iprot.readDouble();
               setRow_cache_sizeIsSet(true);
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case PRELOAD_ROW_CACHE:
-            if (field.type == TType.BOOL) {
-              this.preload_row_cache = iprot.readBool();
-              setPreload_row_cacheIsSet(true);
             } else { 
               TProtocolUtil.skip(iprot, field.type);
             }
@@ -1346,6 +1550,62 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
               TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case MIN_COMPACTION_THRESHOLD:
+            if (field.type == TType.I32) {
+              this.min_compaction_threshold = iprot.readI32();
+              setMin_compaction_thresholdIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case MAX_COMPACTION_THRESHOLD:
+            if (field.type == TType.I32) {
+              this.max_compaction_threshold = iprot.readI32();
+              setMax_compaction_thresholdIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case ROW_CACHE_SAVE_PERIOD_IN_SECONDS:
+            if (field.type == TType.I32) {
+              this.row_cache_save_period_in_seconds = iprot.readI32();
+              setRow_cache_save_period_in_secondsIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case KEY_CACHE_SAVE_PERIOD_IN_SECONDS:
+            if (field.type == TType.I32) {
+              this.key_cache_save_period_in_seconds = iprot.readI32();
+              setKey_cache_save_period_in_secondsIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case MEMTABLE_FLUSH_AFTER_MINS:
+            if (field.type == TType.I32) {
+              this.memtable_flush_after_mins = iprot.readI32();
+              setMemtable_flush_after_minsIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case MEMTABLE_THROUGHPUT_IN_MB:
+            if (field.type == TType.I32) {
+              this.memtable_throughput_in_mb = iprot.readI32();
+              setMemtable_throughput_in_mbIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case MEMTABLE_OPERATIONS_IN_MILLIONS:
+            if (field.type == TType.DOUBLE) {
+              this.memtable_operations_in_millions = iprot.readDouble();
+              setMemtable_operations_in_millionsIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
         }
         iprot.readFieldEnd();
       }
@@ -1377,13 +1637,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         oprot.writeFieldEnd();
       }
     }
-    if (this.clock_type != null) {
-      if (isSetClock_type()) {
-        oprot.writeFieldBegin(CLOCK_TYPE_FIELD_DESC);
-        oprot.writeString(this.clock_type);
-        oprot.writeFieldEnd();
-      }
-    }
     if (this.comparator_type != null) {
       if (isSetComparator_type()) {
         oprot.writeFieldBegin(COMPARATOR_TYPE_FIELD_DESC);
@@ -1398,13 +1651,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
         oprot.writeFieldEnd();
       }
     }
-    if (this.reconciler != null) {
-      if (isSetReconciler()) {
-        oprot.writeFieldBegin(RECONCILER_FIELD_DESC);
-        oprot.writeString(this.reconciler);
-        oprot.writeFieldEnd();
-      }
-    }
     if (this.comment != null) {
       if (isSetComment()) {
         oprot.writeFieldBegin(COMMENT_FIELD_DESC);
@@ -1415,11 +1661,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
     if (isSetRow_cache_size()) {
       oprot.writeFieldBegin(ROW_CACHE_SIZE_FIELD_DESC);
       oprot.writeDouble(this.row_cache_size);
-      oprot.writeFieldEnd();
-    }
-    if (isSetPreload_row_cache()) {
-      oprot.writeFieldBegin(PRELOAD_ROW_CACHE_FIELD_DESC);
-      oprot.writeBool(this.preload_row_cache);
       oprot.writeFieldEnd();
     }
     if (isSetKey_cache_size()) {
@@ -1463,6 +1704,41 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       oprot.writeI32(this.id);
       oprot.writeFieldEnd();
     }
+    if (isSetMin_compaction_threshold()) {
+      oprot.writeFieldBegin(MIN_COMPACTION_THRESHOLD_FIELD_DESC);
+      oprot.writeI32(this.min_compaction_threshold);
+      oprot.writeFieldEnd();
+    }
+    if (isSetMax_compaction_threshold()) {
+      oprot.writeFieldBegin(MAX_COMPACTION_THRESHOLD_FIELD_DESC);
+      oprot.writeI32(this.max_compaction_threshold);
+      oprot.writeFieldEnd();
+    }
+    if (isSetRow_cache_save_period_in_seconds()) {
+      oprot.writeFieldBegin(ROW_CACHE_SAVE_PERIOD_IN_SECONDS_FIELD_DESC);
+      oprot.writeI32(this.row_cache_save_period_in_seconds);
+      oprot.writeFieldEnd();
+    }
+    if (isSetKey_cache_save_period_in_seconds()) {
+      oprot.writeFieldBegin(KEY_CACHE_SAVE_PERIOD_IN_SECONDS_FIELD_DESC);
+      oprot.writeI32(this.key_cache_save_period_in_seconds);
+      oprot.writeFieldEnd();
+    }
+    if (isSetMemtable_flush_after_mins()) {
+      oprot.writeFieldBegin(MEMTABLE_FLUSH_AFTER_MINS_FIELD_DESC);
+      oprot.writeI32(this.memtable_flush_after_mins);
+      oprot.writeFieldEnd();
+    }
+    if (isSetMemtable_throughput_in_mb()) {
+      oprot.writeFieldBegin(MEMTABLE_THROUGHPUT_IN_MB_FIELD_DESC);
+      oprot.writeI32(this.memtable_throughput_in_mb);
+      oprot.writeFieldEnd();
+    }
+    if (isSetMemtable_operations_in_millions()) {
+      oprot.writeFieldBegin(MEMTABLE_OPERATIONS_IN_MILLIONS_FIELD_DESC);
+      oprot.writeDouble(this.memtable_operations_in_millions);
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
@@ -1497,16 +1773,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       }
       first = false;
     }
-    if (isSetClock_type()) {
-      if (!first) sb.append(", ");
-      sb.append("clock_type:");
-      if (this.clock_type == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.clock_type);
-      }
-      first = false;
-    }
     if (isSetComparator_type()) {
       if (!first) sb.append(", ");
       sb.append("comparator_type:");
@@ -1527,16 +1793,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       }
       first = false;
     }
-    if (isSetReconciler()) {
-      if (!first) sb.append(", ");
-      sb.append("reconciler:");
-      if (this.reconciler == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.reconciler);
-      }
-      first = false;
-    }
     if (isSetComment()) {
       if (!first) sb.append(", ");
       sb.append("comment:");
@@ -1551,12 +1807,6 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       if (!first) sb.append(", ");
       sb.append("row_cache_size:");
       sb.append(this.row_cache_size);
-      first = false;
-    }
-    if (isSetPreload_row_cache()) {
-      if (!first) sb.append(", ");
-      sb.append("preload_row_cache:");
-      sb.append(this.preload_row_cache);
       first = false;
     }
     if (isSetKey_cache_size()) {
@@ -1601,6 +1851,48 @@ public class CfDef implements TBase<CfDef._Fields>, java.io.Serializable, Clonea
       if (!first) sb.append(", ");
       sb.append("id:");
       sb.append(this.id);
+      first = false;
+    }
+    if (isSetMin_compaction_threshold()) {
+      if (!first) sb.append(", ");
+      sb.append("min_compaction_threshold:");
+      sb.append(this.min_compaction_threshold);
+      first = false;
+    }
+    if (isSetMax_compaction_threshold()) {
+      if (!first) sb.append(", ");
+      sb.append("max_compaction_threshold:");
+      sb.append(this.max_compaction_threshold);
+      first = false;
+    }
+    if (isSetRow_cache_save_period_in_seconds()) {
+      if (!first) sb.append(", ");
+      sb.append("row_cache_save_period_in_seconds:");
+      sb.append(this.row_cache_save_period_in_seconds);
+      first = false;
+    }
+    if (isSetKey_cache_save_period_in_seconds()) {
+      if (!first) sb.append(", ");
+      sb.append("key_cache_save_period_in_seconds:");
+      sb.append(this.key_cache_save_period_in_seconds);
+      first = false;
+    }
+    if (isSetMemtable_flush_after_mins()) {
+      if (!first) sb.append(", ");
+      sb.append("memtable_flush_after_mins:");
+      sb.append(this.memtable_flush_after_mins);
+      first = false;
+    }
+    if (isSetMemtable_throughput_in_mb()) {
+      if (!first) sb.append(", ");
+      sb.append("memtable_throughput_in_mb:");
+      sb.append(this.memtable_throughput_in_mb);
+      first = false;
+    }
+    if (isSetMemtable_operations_in_millions()) {
+      if (!first) sb.append(", ");
+      sb.append("memtable_operations_in_millions:");
+      sb.append(this.memtable_operations_in_millions);
       first = false;
     }
     sb.append(")");

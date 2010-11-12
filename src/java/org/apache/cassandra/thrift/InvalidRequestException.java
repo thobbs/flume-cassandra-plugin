@@ -30,13 +30,13 @@ import org.apache.thrift.protocol.*;
 public class InvalidRequestException extends Exception implements TBase<InvalidRequestException._Fields>, java.io.Serializable, Cloneable, Comparable<InvalidRequestException> {
   private static final TStruct STRUCT_DESC = new TStruct("InvalidRequestException");
 
-  private static final TField WHY_FIELD_DESC = new TField("why", TType.STRING, (short)1);
+  private static final TField MESSAGE_FIELD_DESC = new TField("message", TType.STRING, (short)1);
 
-  public String why;
+  public String message;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements TFieldIdEnum {
-    WHY((short)1, "why");
+    MESSAGE((short)1, "message");
 
     private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -92,7 +92,7 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
   // isset id assignments
 
   public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
-    put(_Fields.WHY, new FieldMetaData("why", TFieldRequirementType.REQUIRED, 
+    put(_Fields.MESSAGE, new FieldMetaData("message", TFieldRequirementType.REQUIRED, 
         new FieldValueMetaData(TType.STRING)));
   }});
 
@@ -104,18 +104,18 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
   }
 
   public InvalidRequestException(
-    String why)
+    String message)
   {
     this();
-    this.why = why;
+    this.message = message;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public InvalidRequestException(InvalidRequestException other) {
-    if (other.isSetWhy()) {
-      this.why = other.why;
+    if (other.isSetMessage()) {
+      this.message = other.message;
     }
   }
 
@@ -128,37 +128,37 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     return new InvalidRequestException(this);
   }
 
-  public String getWhy() {
-    return this.why;
+  public String getMessage() {
+    return this.message;
   }
 
-  public InvalidRequestException setWhy(String why) {
-    this.why = why;
+  public InvalidRequestException setMessage(String message) {
+    this.message = message;
     return this;
   }
 
-  public void unsetWhy() {
-    this.why = null;
+  public void unsetMessage() {
+    this.message = null;
   }
 
-  /** Returns true if field why is set (has been asigned a value) and false otherwise */
-  public boolean isSetWhy() {
-    return this.why != null;
+  /** Returns true if field message is set (has been asigned a value) and false otherwise */
+  public boolean isSetMessage() {
+    return this.message != null;
   }
 
-  public void setWhyIsSet(boolean value) {
+  public void setMessageIsSet(boolean value) {
     if (!value) {
-      this.why = null;
+      this.message = null;
     }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case WHY:
+    case MESSAGE:
       if (value == null) {
-        unsetWhy();
+        unsetMessage();
       } else {
-        setWhy((String)value);
+        setMessage((String)value);
       }
       break;
 
@@ -171,8 +171,8 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case WHY:
-      return getWhy();
+    case MESSAGE:
+      return getMessage();
 
     }
     throw new IllegalStateException();
@@ -185,8 +185,8 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
   /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     switch (field) {
-    case WHY:
-      return isSetWhy();
+    case MESSAGE:
+      return isSetMessage();
     }
     throw new IllegalStateException();
   }
@@ -208,12 +208,12 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     if (that == null)
       return false;
 
-    boolean this_present_why = true && this.isSetWhy();
-    boolean that_present_why = true && that.isSetWhy();
-    if (this_present_why || that_present_why) {
-      if (!(this_present_why && that_present_why))
+    boolean this_present_message = true && this.isSetMessage();
+    boolean that_present_message = true && that.isSetMessage();
+    if (this_present_message || that_present_message) {
+      if (!(this_present_message && that_present_message))
         return false;
-      if (!this.why.equals(that.why))
+      if (!this.message.equals(that.message))
         return false;
     }
 
@@ -233,11 +233,11 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     int lastComparison = 0;
     InvalidRequestException typedOther = (InvalidRequestException)other;
 
-    lastComparison = Boolean.valueOf(isSetWhy()).compareTo(isSetWhy());
+    lastComparison = Boolean.valueOf(isSetMessage()).compareTo(isSetMessage());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(why, typedOther.why);
+    lastComparison = TBaseHelper.compareTo(message, typedOther.message);
     if (lastComparison != 0) {
       return lastComparison;
     }
@@ -258,9 +258,9 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
         TProtocolUtil.skip(iprot, field.type);
       } else {
         switch (fieldId) {
-          case WHY:
+          case MESSAGE:
             if (field.type == TType.STRING) {
-              this.why = iprot.readString();
+              this.message = iprot.readString();
             } else { 
               TProtocolUtil.skip(iprot, field.type);
             }
@@ -279,9 +279,9 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.why != null) {
-      oprot.writeFieldBegin(WHY_FIELD_DESC);
-      oprot.writeString(this.why);
+    if (this.message != null) {
+      oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
+      oprot.writeString(this.message);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -293,11 +293,11 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     StringBuilder sb = new StringBuilder("InvalidRequestException(");
     boolean first = true;
 
-    sb.append("why:");
-    if (this.why == null) {
+    sb.append("message:");
+    if (this.message == null) {
       sb.append("null");
     } else {
-      sb.append(this.why);
+      sb.append(this.message);
     }
     first = false;
     sb.append(")");
@@ -306,8 +306,8 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
 
   public void validate() throws TException {
     // check for required fields
-    if (why == null) {
-      throw new TProtocolException("Required field 'why' was not present! Struct: " + toString());
+    if (message == null) {
+      throw new TProtocolException("Required field 'message' was not present! Struct: " + toString());
     }
   }
 

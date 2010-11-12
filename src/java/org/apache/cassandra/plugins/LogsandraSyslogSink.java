@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.cassandra.thrift.Clock;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.safehaus.uuid.UUID;
@@ -66,7 +65,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
   @Override
   public void append(Event event) throws IOException {
 
-    Clock clock = new Clock(System.currentTimeMillis() * MILLI_TO_MICRO);
+    long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     UUID uuid = uuidGen.generateTimeBasedUUID();
     
@@ -97,14 +96,14 @@ public class LogsandraSyslogSink extends EventSink.Base {
       finalBytes[i + eventInfoBytes.length] = eventBody[i];
     }
     
-    Column identColumn = new Column(IDENT_NAME, "ident".getBytes(), clock);
-    Column sourceColumn = new Column(SOURCE_NAME, host.getBytes(), clock);
-    Column dateColumn = new Column(DATE_NAME, date.getBytes(), clock);
-    Column entryColumn = new Column(ENTRY_NAME, finalBytes, clock);
+    Column identColumn = new Column(IDENT_NAME, "ident".getBytes(), timestamp);
+    Column sourceColumn = new Column(SOURCE_NAME, host.getBytes(), timestamp);
+    Column dateColumn = new Column(DATE_NAME, date.getBytes(), timestamp);
+    Column entryColumn = new Column(ENTRY_NAME, finalBytes, timestamp);
     Column[] entryColumns = {identColumn, sourceColumn, dateColumn, entryColumn};
     
     Long time = System.currentTimeMillis() * MILLI_TO_MICRO;
-    Column timeColumn = new Column(toBytes(time), uuid.toString().getBytes(), clock);
+    Column timeColumn = new Column(toBytes(time), uuid.toString().getBytes(), timestamp);
     Column[] byDateColumns = {timeColumn};
 
     // Insert the entry

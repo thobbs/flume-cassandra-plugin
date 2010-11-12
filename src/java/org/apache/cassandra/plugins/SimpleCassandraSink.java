@@ -62,14 +62,14 @@ public class SimpleCassandraSink extends EventSink.Base {
   @Override
   public void append(Event event) throws IOException {
 
-    Clock clock = new Clock(System.currentTimeMillis() * MILLI_TO_MICRO);
+    long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     // Make the index column
     UUID uuid = uuidGen.generateTimeBasedUUID();
-    Column indexColumn = new Column(uuid.toByteArray(), new byte[0], clock);
+    Column indexColumn = new Column(uuid.toByteArray(), new byte[0], timestamp);
 
     // Make the data column
-    Column dataColumn = new Column("data".getBytes(), event.getBody(), clock);
+    Column dataColumn = new Column("data".getBytes(), event.getBody(), timestamp);
 
     // Insert the index
     this.cClient.insert(this.getKey(), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
