@@ -1,6 +1,7 @@
 package org.apache.cassandra.plugins;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -83,8 +84,9 @@ public class CassandraClient {
   }
 
   /** Inserts columns into a column family in a given row. */
-  public void insert(byte[] key, String columnFamily, Column[] columns, ConsistencyLevel consistencyLevel) throws IOException
+  public void insert(byte[] keyarray, String columnFamily, Column[] columns, ConsistencyLevel consistencyLevel) throws IOException
   {
+	ByteBuffer key = ByteBuffer.wrap(keyarray);
     List<Mutation> mutationList = new ArrayList<Mutation>();
     for(int i = 0; i < columns.length; i++) {
       Mutation mutation = new Mutation();
@@ -95,7 +97,7 @@ public class CassandraClient {
     }
     Map<String, List<Mutation>> innerMutationMap = new HashMap<String, List<Mutation>>();
     innerMutationMap.put(columnFamily, mutationList);
-    Map<byte[], Map<String, List<Mutation>>> mutationMap = new HashMap<byte[], Map<String, List<Mutation>>>();
+    Map<ByteBuffer, Map<String, List<Mutation>>> mutationMap = new HashMap<ByteBuffer, Map<String, List<Mutation>>>();
     mutationMap.put(key, innerMutationMap);
 
     batchMutate(mutationMap, consistencyLevel);
@@ -103,7 +105,7 @@ public class CassandraClient {
 
   /** Attempts to perform a batch mutation and retries upon failure. */
   private void batchMutate(
-      Map<byte[], Map<String, List<Mutation>>> mutationMap,
+      Map<ByteBuffer, Map<String, List<Mutation>>> mutationMap,
       ConsistencyLevel consistencyLevel)
   throws IOException
   {

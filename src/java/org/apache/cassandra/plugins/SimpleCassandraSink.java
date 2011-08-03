@@ -58,18 +58,25 @@ public class SimpleCassandraSink extends EventSink.Base {
    * The key is the current date (YYYYMMDD) and the column
    * name is a type 1 UUID, which includes a time stamp
    * component.
+ * @throws InterruptedException 
    */
   @Override
-  public void append(Event event) throws IOException {
+  public void append(Event event) throws IOException, InterruptedException {
 
     long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     // Make the index column
     UUID uuid = uuidGen.generateTimeBasedUUID();
-    Column indexColumn = new Column(uuid.toByteArray(), new byte[0], timestamp);
+    Column indexColumn = new Column();
+			indexColumn.setName(uuid.toByteArray());
+			indexColumn.setValue(new byte[0]);
+			indexColumn.setTimestamp(timestamp);
 
     // Make the data column
-    Column dataColumn = new Column("data".getBytes(), event.getBody(), timestamp);
+    Column dataColumn = new Column();
+			dataColumn.setName("data".getBytes());
+			dataColumn.setValue(event.getBody());
+			dataColumn.setTimestamp(timestamp);
 
     // Insert the index
     this.cClient.insert(this.getKey(), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);

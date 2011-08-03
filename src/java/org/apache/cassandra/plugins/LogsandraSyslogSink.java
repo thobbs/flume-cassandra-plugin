@@ -61,9 +61,10 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
   /**
    * Writes the message to Cassandra in a Logsandra compatible way.
+ * @throws InterruptedException 
    */
   @Override
-  public void append(Event event) throws IOException {
+  public void append(Event event) throws IOException, InterruptedException {
 
     long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
@@ -96,14 +97,34 @@ public class LogsandraSyslogSink extends EventSink.Base {
       finalBytes[i + eventInfoBytes.length] = eventBody[i];
     }
     
-    Column identColumn = new Column(IDENT_NAME, "ident".getBytes(), timestamp);
-    Column sourceColumn = new Column(SOURCE_NAME, host.getBytes(), timestamp);
-    Column dateColumn = new Column(DATE_NAME, date.getBytes(), timestamp);
-    Column entryColumn = new Column(ENTRY_NAME, finalBytes, timestamp);
+    Column identColumn = new Column();
+    	identColumn.setName(IDENT_NAME);
+    	identColumn.setValue("ident".getBytes());
+    	identColumn.setTimestamp(timestamp);
+    	
+    Column sourceColumn = new Column();
+			sourceColumn.setName(SOURCE_NAME);
+			sourceColumn.setValue(host.getBytes());
+			sourceColumn.setTimestamp(timestamp);
+			
+    Column dateColumn = new Column();
+			dateColumn.setName(DATE_NAME);
+			dateColumn.setValue(date.getBytes());
+			dateColumn.setTimestamp(timestamp);    
+    
+    Column entryColumn = new Column();
+			entryColumn.setName(ENTRY_NAME);
+			entryColumn.setValue(finalBytes);
+			entryColumn.setTimestamp(timestamp);
+    
     Column[] entryColumns = {identColumn, sourceColumn, dateColumn, entryColumn};
     
     Long time = System.currentTimeMillis() * MILLI_TO_MICRO;
-    Column timeColumn = new Column(toBytes(time), uuid.toString().getBytes(), timestamp);
+    Column timeColumn = new Column();
+			timeColumn.setName(toBytes(time));
+			timeColumn.setValue(uuid.toString().getBytes());
+			timeColumn.setTimestamp(timestamp);
+    
     Column[] byDateColumns = {timeColumn};
 
     // Insert the entry
