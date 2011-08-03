@@ -9,18 +9,13 @@ package org.apache.cassandra.thrift;
 import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
-public enum IndexOperator implements TEnum{
-    EQ(0),
-    GTE(1),
-    GT(2),
-    LTE(3),
-    LT(4);
 
-  private static final Map<Integer, IndexOperator> BY_VALUE = new HashMap<Integer,IndexOperator>() {{
-    for(IndexOperator val : IndexOperator.values()) {
-      put(val.getValue(), val);
-    }
-  }};
+public enum IndexOperator implements org.apache.thrift.TEnum {
+  EQ(0),
+  GTE(1),
+  GT(2),
+  LTE(3),
+  LT(4);
 
   private final int value;
 
@@ -40,6 +35,19 @@ public enum IndexOperator implements TEnum{
    * @return null if the value is not found.
    */
   public static IndexOperator findByValue(int value) { 
-    return BY_VALUE.get(value);
+    switch (value) {
+      case 0:
+        return EQ;
+      case 1:
+        return GTE;
+      case 2:
+        return GT;
+      case 3:
+        return LTE;
+      case 4:
+        return LT;
+      default:
+        return null;
+    }
   }
 }

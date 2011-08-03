@@ -15,35 +15,30 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
 
 /**
  * Invalid request could mean keyspace or column family does not exist, required parameters are missing, or a parameter is malformed.
  * why contains an associated error message.
  */
-public class InvalidRequestException extends Exception implements TBase<InvalidRequestException._Fields>, java.io.Serializable, Cloneable, Comparable<InvalidRequestException> {
-  private static final TStruct STRUCT_DESC = new TStruct("InvalidRequestException");
+public class InvalidRequestException extends Exception implements org.apache.thrift.TBase<InvalidRequestException, InvalidRequestException._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("InvalidRequestException");
 
-  private static final TField MESSAGE_FIELD_DESC = new TField("message", TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField WHY_FIELD_DESC = new org.apache.thrift.protocol.TField("why", org.apache.thrift.protocol.TType.STRING, (short)1);
 
-  public String message;
+  public String why;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
-    MESSAGE((short)1, "message");
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+    WHY((short)1, "why");
 
-    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -52,7 +47,12 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      return byId.get(fieldId);
+      switch(fieldId) {
+        case 1: // WHY
+          return WHY;
+        default:
+          return null;
+      }
     }
 
     /**
@@ -91,31 +91,31 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
 
   // isset id assignments
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
-    put(_Fields.MESSAGE, new FieldMetaData("message", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-  }});
-
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    FieldMetaData.addStructMetaDataMap(InvalidRequestException.class, metaDataMap);
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.WHY, new org.apache.thrift.meta_data.FieldMetaData("why", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    metaDataMap = Collections.unmodifiableMap(tmpMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(InvalidRequestException.class, metaDataMap);
   }
 
   public InvalidRequestException() {
   }
 
   public InvalidRequestException(
-    String message)
+    String why)
   {
     this();
-    this.message = message;
+    this.why = why;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public InvalidRequestException(InvalidRequestException other) {
-    if (other.isSetMessage()) {
-      this.message = other.message;
+    if (other.isSetWhy()) {
+      this.why = other.why;
     }
   }
 
@@ -123,76 +123,68 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     return new InvalidRequestException(this);
   }
 
-  @Deprecated
-  public InvalidRequestException clone() {
-    return new InvalidRequestException(this);
+  @Override
+  public void clear() {
+    this.why = null;
   }
 
-  public String getMessage() {
-    return this.message;
+  public String getWhy() {
+    return this.why;
   }
 
-  public InvalidRequestException setMessage(String message) {
-    this.message = message;
+  public InvalidRequestException setWhy(String why) {
+    this.why = why;
     return this;
   }
 
-  public void unsetMessage() {
-    this.message = null;
+  public void unsetWhy() {
+    this.why = null;
   }
 
-  /** Returns true if field message is set (has been asigned a value) and false otherwise */
-  public boolean isSetMessage() {
-    return this.message != null;
+  /** Returns true if field why is set (has been assigned a value) and false otherwise */
+  public boolean isSetWhy() {
+    return this.why != null;
   }
 
-  public void setMessageIsSet(boolean value) {
+  public void setWhyIsSet(boolean value) {
     if (!value) {
-      this.message = null;
+      this.why = null;
     }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case MESSAGE:
+    case WHY:
       if (value == null) {
-        unsetMessage();
+        unsetWhy();
       } else {
-        setMessage((String)value);
+        setWhy((String)value);
       }
       break;
 
     }
   }
 
-  public void setFieldValue(int fieldID, Object value) {
-    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
-  }
-
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case MESSAGE:
-      return getMessage();
+    case WHY:
+      return getWhy();
 
     }
     throw new IllegalStateException();
   }
 
-  public Object getFieldValue(int fieldId) {
-    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
-  }
-
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
+    if (field == null) {
+      throw new IllegalArgumentException();
+    }
+
     switch (field) {
-    case MESSAGE:
-      return isSetMessage();
+    case WHY:
+      return isSetWhy();
     }
     throw new IllegalStateException();
-  }
-
-  public boolean isSet(int fieldID) {
-    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -208,12 +200,12 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     if (that == null)
       return false;
 
-    boolean this_present_message = true && this.isSetMessage();
-    boolean that_present_message = true && that.isSetMessage();
-    if (this_present_message || that_present_message) {
-      if (!(this_present_message && that_present_message))
+    boolean this_present_why = true && this.isSetWhy();
+    boolean that_present_why = true && that.isSetWhy();
+    if (this_present_why || that_present_why) {
+      if (!(this_present_why && that_present_why))
         return false;
-      if (!this.message.equals(that.message))
+      if (!this.why.equals(that.why))
         return false;
     }
 
@@ -233,41 +225,44 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     int lastComparison = 0;
     InvalidRequestException typedOther = (InvalidRequestException)other;
 
-    lastComparison = Boolean.valueOf(isSetMessage()).compareTo(isSetMessage());
+    lastComparison = Boolean.valueOf(isSetWhy()).compareTo(typedOther.isSetWhy());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(message, typedOther.message);
-    if (lastComparison != 0) {
-      return lastComparison;
+    if (isSetWhy()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.why, typedOther.why);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
     }
     return 0;
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public _Fields fieldForId(int fieldId) {
+    return _Fields.findByThriftId(fieldId);
+  }
+
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
-      _Fields fieldId = _Fields.findByThriftId(field.id);
-      if (fieldId == null) {
-        TProtocolUtil.skip(iprot, field.type);
-      } else {
-        switch (fieldId) {
-          case MESSAGE:
-            if (field.type == TType.STRING) {
-              this.message = iprot.readString();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-        }
-        iprot.readFieldEnd();
+      switch (field.id) {
+        case 1: // WHY
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.why = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        default:
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
+      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
@@ -275,13 +270,13 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.message != null) {
-      oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
-      oprot.writeString(this.message);
+    if (this.why != null) {
+      oprot.writeFieldBegin(WHY_FIELD_DESC);
+      oprot.writeString(this.why);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -293,21 +288,37 @@ public class InvalidRequestException extends Exception implements TBase<InvalidR
     StringBuilder sb = new StringBuilder("InvalidRequestException(");
     boolean first = true;
 
-    sb.append("message:");
-    if (this.message == null) {
+    sb.append("why:");
+    if (this.why == null) {
       sb.append("null");
     } else {
-      sb.append(this.message);
+      sb.append(this.why);
     }
     first = false;
     sb.append(")");
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
-    if (message == null) {
-      throw new TProtocolException("Required field 'message' was not present! Struct: " + toString());
+    if (why == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'why' was not present! Struct: " + toString());
+    }
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
     }
   }
 
