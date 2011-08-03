@@ -15,10 +15,13 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.thrift.*;
+import org.apache.thrift.meta_data.*;
+import org.apache.thrift.protocol.*;
 
 /**
  * A KeySlice is key followed by the data it maps to. A collection of KeySlice is returned by the get_range_slice operation.
@@ -27,24 +30,26 @@ import org.slf4j.LoggerFactory;
  * @param columns. List of data represented by the key. Typically, the list is pared down to only the columns specified by
  *                 a SlicePredicate.
  */
-public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeySlice");
+public class KeySlice implements TBase<KeySlice._Fields>, java.io.Serializable, Cloneable, Comparable<KeySlice> {
+  private static final TStruct STRUCT_DESC = new TStruct("KeySlice");
 
-  private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField COLUMNS_FIELD_DESC = new org.apache.thrift.protocol.TField("columns", org.apache.thrift.protocol.TType.LIST, (short)2);
+  private static final TField KEY_FIELD_DESC = new TField("key", TType.STRING, (short)1);
+  private static final TField COLUMNS_FIELD_DESC = new TField("columns", TType.LIST, (short)2);
 
-  public ByteBuffer key;
+  public byte[] key;
   public List<ColumnOrSuperColumn> columns;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements TFieldIdEnum {
     KEY((short)1, "key"),
     COLUMNS((short)2, "columns");
 
+    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
+        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -53,14 +58,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 1: // KEY
-          return KEY;
-        case 2: // COLUMNS
-          return COLUMNS;
-        default:
-          return null;
-      }
+      return byId.get(fieldId);
     }
 
     /**
@@ -99,23 +97,23 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
 
   // isset id assignments
 
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
+    put(_Fields.KEY, new FieldMetaData("key", TFieldRequirementType.REQUIRED, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.COLUMNS, new FieldMetaData("columns", TFieldRequirementType.REQUIRED, 
+        new ListMetaData(TType.LIST, 
+            new StructMetaData(TType.STRUCT, ColumnOrSuperColumn.class))));
+  }});
+
   static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.COLUMNS, new org.apache.thrift.meta_data.FieldMetaData("columns", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ColumnOrSuperColumn.class))));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeySlice.class, metaDataMap);
+    FieldMetaData.addStructMetaDataMap(KeySlice.class, metaDataMap);
   }
 
   public KeySlice() {
   }
 
   public KeySlice(
-    ByteBuffer key,
+    byte[] key,
     List<ColumnOrSuperColumn> columns)
   {
     this();
@@ -128,8 +126,8 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
    */
   public KeySlice(KeySlice other) {
     if (other.isSetKey()) {
-      this.key = org.apache.thrift.TBaseHelper.copyBinary(other.key);
-;
+      this.key = new byte[other.key.length];
+      System.arraycopy(other.key, 0, key, 0, other.key.length);
     }
     if (other.isSetColumns()) {
       List<ColumnOrSuperColumn> __this__columns = new ArrayList<ColumnOrSuperColumn>();
@@ -144,27 +142,16 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     return new KeySlice(this);
   }
 
-  @Override
-  public void clear() {
-    this.key = null;
-    this.columns = null;
+  @Deprecated
+  public KeySlice clone() {
+    return new KeySlice(this);
   }
 
   public byte[] getKey() {
-    setKey(org.apache.thrift.TBaseHelper.rightSize(key));
-    return key == null ? null : key.array();
-  }
-
-  public ByteBuffer bufferForKey() {
-    return key;
+    return this.key;
   }
 
   public KeySlice setKey(byte[] key) {
-    setKey(key == null ? (ByteBuffer)null : ByteBuffer.wrap(key));
-    return this;
-  }
-
-  public KeySlice setKey(ByteBuffer key) {
     this.key = key;
     return this;
   }
@@ -173,7 +160,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     this.key = null;
   }
 
-  /** Returns true if field key is set (has been assigned a value) and false otherwise */
+  /** Returns true if field key is set (has been asigned a value) and false otherwise */
   public boolean isSetKey() {
     return this.key != null;
   }
@@ -212,7 +199,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     this.columns = null;
   }
 
-  /** Returns true if field columns is set (has been assigned a value) and false otherwise */
+  /** Returns true if field columns is set (has been asigned a value) and false otherwise */
   public boolean isSetColumns() {
     return this.columns != null;
   }
@@ -229,7 +216,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
       if (value == null) {
         unsetKey();
       } else {
-        setKey((ByteBuffer)value);
+        setKey((byte[])value);
       }
       break;
 
@@ -244,6 +231,10 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     }
   }
 
+  public void setFieldValue(int fieldID, Object value) {
+    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
+  }
+
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case KEY:
@@ -256,12 +247,12 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
+  public Object getFieldValue(int fieldId) {
+    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
+  }
 
+  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  public boolean isSet(_Fields field) {
     switch (field) {
     case KEY:
       return isSetKey();
@@ -269,6 +260,10 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
       return isSetColumns();
     }
     throw new IllegalStateException();
+  }
+
+  public boolean isSet(int fieldID) {
+    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -289,7 +284,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     if (this_present_key || that_present_key) {
       if (!(this_present_key && that_present_key))
         return false;
-      if (!this.key.equals(that.key))
+      if (!java.util.Arrays.equals(this.key, that.key))
         return false;
     }
 
@@ -318,72 +313,67 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     int lastComparison = 0;
     KeySlice typedOther = (KeySlice)other;
 
-    lastComparison = Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
+    lastComparison = Boolean.valueOf(isSetKey()).compareTo(isSetKey());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetKey()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, typedOther.key);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetColumns()).compareTo(typedOther.isSetColumns());
+    lastComparison = TBaseHelper.compareTo(key, typedOther.key);
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, typedOther.columns);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
+    lastComparison = Boolean.valueOf(isSetColumns()).compareTo(isSetColumns());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(columns, typedOther.columns);
+    if (lastComparison != 0) {
+      return lastComparison;
     }
     return 0;
   }
 
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
-
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    org.apache.thrift.protocol.TField field;
+  public void read(TProtocol iprot) throws TException {
+    TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+      if (field.type == TType.STOP) { 
         break;
       }
-      switch (field.id) {
-        case 1: // KEY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.key = iprot.readBinary();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 2: // COLUMNS
-          if (field.type == org.apache.thrift.protocol.TType.LIST) {
-            {
-              org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
-              this.columns = new ArrayList<ColumnOrSuperColumn>(_list16.size);
-              for (int _i17 = 0; _i17 < _list16.size; ++_i17)
-              {
-                ColumnOrSuperColumn _elem18;
-                _elem18 = new ColumnOrSuperColumn();
-                _elem18.read(iprot);
-                this.columns.add(_elem18);
-              }
-              iprot.readListEnd();
+      _Fields fieldId = _Fields.findByThriftId(field.id);
+      if (fieldId == null) {
+        TProtocolUtil.skip(iprot, field.type);
+      } else {
+        switch (fieldId) {
+          case KEY:
+            if (field.type == TType.STRING) {
+              this.key = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
             }
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        default:
-          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            break;
+          case COLUMNS:
+            if (field.type == TType.LIST) {
+              {
+                TList _list12 = iprot.readListBegin();
+                this.columns = new ArrayList<ColumnOrSuperColumn>(_list12.size);
+                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
+                {
+                  ColumnOrSuperColumn _elem14;
+                  _elem14 = new ColumnOrSuperColumn();
+                  _elem14.read(iprot);
+                  this.columns.add(_elem14);
+                }
+                iprot.readListEnd();
+              }
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+        }
+        iprot.readFieldEnd();
       }
-      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
@@ -391,7 +381,7 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     validate();
   }
 
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(TProtocol oprot) throws TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -403,10 +393,10 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     if (this.columns != null) {
       oprot.writeFieldBegin(COLUMNS_FIELD_DESC);
       {
-        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.columns.size()));
-        for (ColumnOrSuperColumn _iter19 : this.columns)
+        oprot.writeListBegin(new TList(TType.STRUCT, this.columns.size()));
+        for (ColumnOrSuperColumn _iter15 : this.columns)
         {
-          _iter19.write(oprot);
+          _iter15.write(oprot);
         }
         oprot.writeListEnd();
       }
@@ -425,7 +415,12 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     if (this.key == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.key, sb);
+        int __key_size = Math.min(this.key.length, 128);
+        for (int i = 0; i < __key_size; i++) {
+          if (i != 0) sb.append(" ");
+          sb.append(Integer.toHexString(this.key[i]).length() > 1 ? Integer.toHexString(this.key[i]).substring(Integer.toHexString(this.key[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.key[i]).toUpperCase());
+        }
+        if (this.key.length > 128) sb.append(" ...");
     }
     first = false;
     if (!first) sb.append(", ");
@@ -440,29 +435,13 @@ public class KeySlice implements org.apache.thrift.TBase<KeySlice, KeySlice._Fie
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws TException {
     // check for required fields
     if (key == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'key' was not present! Struct: " + toString());
+      throw new TProtocolException("Required field 'key' was not present! Struct: " + toString());
     }
     if (columns == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'columns' was not present! Struct: " + toString());
-    }
-  }
-
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
+      throw new TProtocolException("Required field 'columns' was not present! Struct: " + toString());
     }
   }
 

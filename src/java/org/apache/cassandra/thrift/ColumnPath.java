@@ -15,10 +15,13 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.thrift.*;
+import org.apache.thrift.meta_data.*;
+import org.apache.thrift.protocol.*;
 
 /**
  * The ColumnPath is the path to a single column in Cassandra. It might make sense to think of ColumnPath and
@@ -30,27 +33,29 @@ import org.slf4j.LoggerFactory;
  * @param super_column. The super column name.
  * @param column. The column name.
  */
-public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPath._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ColumnPath");
+public class ColumnPath implements TBase<ColumnPath._Fields>, java.io.Serializable, Cloneable, Comparable<ColumnPath> {
+  private static final TStruct STRUCT_DESC = new TStruct("ColumnPath");
 
-  private static final org.apache.thrift.protocol.TField COLUMN_FAMILY_FIELD_DESC = new org.apache.thrift.protocol.TField("column_family", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField SUPER_COLUMN_FIELD_DESC = new org.apache.thrift.protocol.TField("super_column", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField COLUMN_FIELD_DESC = new org.apache.thrift.protocol.TField("column", org.apache.thrift.protocol.TType.STRING, (short)5);
+  private static final TField COLUMN_FAMILY_FIELD_DESC = new TField("column_family", TType.STRING, (short)3);
+  private static final TField SUPER_COLUMN_FIELD_DESC = new TField("super_column", TType.STRING, (short)4);
+  private static final TField COLUMN_FIELD_DESC = new TField("column", TType.STRING, (short)5);
 
   public String column_family;
-  public ByteBuffer super_column;
-  public ByteBuffer column;
+  public byte[] super_column;
+  public byte[] column;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements TFieldIdEnum {
     COLUMN_FAMILY((short)3, "column_family"),
     SUPER_COLUMN((short)4, "super_column"),
     COLUMN((short)5, "column");
 
+    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
+        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -59,16 +64,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 3: // COLUMN_FAMILY
-          return COLUMN_FAMILY;
-        case 4: // SUPER_COLUMN
-          return SUPER_COLUMN;
-        case 5: // COLUMN
-          return COLUMN;
-        default:
-          return null;
-      }
+      return byId.get(fieldId);
     }
 
     /**
@@ -107,17 +103,17 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
 
   // isset id assignments
 
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
+    put(_Fields.COLUMN_FAMILY, new FieldMetaData("column_family", TFieldRequirementType.REQUIRED, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.SUPER_COLUMN, new FieldMetaData("super_column", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.COLUMN, new FieldMetaData("column", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+  }});
+
   static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.COLUMN_FAMILY, new org.apache.thrift.meta_data.FieldMetaData("column_family", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.SUPER_COLUMN, new org.apache.thrift.meta_data.FieldMetaData("super_column", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.COLUMN, new org.apache.thrift.meta_data.FieldMetaData("column", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ColumnPath.class, metaDataMap);
+    FieldMetaData.addStructMetaDataMap(ColumnPath.class, metaDataMap);
   }
 
   public ColumnPath() {
@@ -138,12 +134,12 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       this.column_family = other.column_family;
     }
     if (other.isSetSuper_column()) {
-      this.super_column = org.apache.thrift.TBaseHelper.copyBinary(other.super_column);
-;
+      this.super_column = new byte[other.super_column.length];
+      System.arraycopy(other.super_column, 0, super_column, 0, other.super_column.length);
     }
     if (other.isSetColumn()) {
-      this.column = org.apache.thrift.TBaseHelper.copyBinary(other.column);
-;
+      this.column = new byte[other.column.length];
+      System.arraycopy(other.column, 0, column, 0, other.column.length);
     }
   }
 
@@ -151,11 +147,9 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     return new ColumnPath(this);
   }
 
-  @Override
-  public void clear() {
-    this.column_family = null;
-    this.super_column = null;
-    this.column = null;
+  @Deprecated
+  public ColumnPath clone() {
+    return new ColumnPath(this);
   }
 
   public String getColumn_family() {
@@ -171,7 +165,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     this.column_family = null;
   }
 
-  /** Returns true if field column_family is set (has been assigned a value) and false otherwise */
+  /** Returns true if field column_family is set (has been asigned a value) and false otherwise */
   public boolean isSetColumn_family() {
     return this.column_family != null;
   }
@@ -183,20 +177,10 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
   }
 
   public byte[] getSuper_column() {
-    setSuper_column(org.apache.thrift.TBaseHelper.rightSize(super_column));
-    return super_column == null ? null : super_column.array();
-  }
-
-  public ByteBuffer bufferForSuper_column() {
-    return super_column;
+    return this.super_column;
   }
 
   public ColumnPath setSuper_column(byte[] super_column) {
-    setSuper_column(super_column == null ? (ByteBuffer)null : ByteBuffer.wrap(super_column));
-    return this;
-  }
-
-  public ColumnPath setSuper_column(ByteBuffer super_column) {
     this.super_column = super_column;
     return this;
   }
@@ -205,7 +189,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     this.super_column = null;
   }
 
-  /** Returns true if field super_column is set (has been assigned a value) and false otherwise */
+  /** Returns true if field super_column is set (has been asigned a value) and false otherwise */
   public boolean isSetSuper_column() {
     return this.super_column != null;
   }
@@ -217,20 +201,10 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
   }
 
   public byte[] getColumn() {
-    setColumn(org.apache.thrift.TBaseHelper.rightSize(column));
-    return column == null ? null : column.array();
-  }
-
-  public ByteBuffer bufferForColumn() {
-    return column;
+    return this.column;
   }
 
   public ColumnPath setColumn(byte[] column) {
-    setColumn(column == null ? (ByteBuffer)null : ByteBuffer.wrap(column));
-    return this;
-  }
-
-  public ColumnPath setColumn(ByteBuffer column) {
     this.column = column;
     return this;
   }
@@ -239,7 +213,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     this.column = null;
   }
 
-  /** Returns true if field column is set (has been assigned a value) and false otherwise */
+  /** Returns true if field column is set (has been asigned a value) and false otherwise */
   public boolean isSetColumn() {
     return this.column != null;
   }
@@ -264,7 +238,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       if (value == null) {
         unsetSuper_column();
       } else {
-        setSuper_column((ByteBuffer)value);
+        setSuper_column((byte[])value);
       }
       break;
 
@@ -272,11 +246,15 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       if (value == null) {
         unsetColumn();
       } else {
-        setColumn((ByteBuffer)value);
+        setColumn((byte[])value);
       }
       break;
 
     }
+  }
+
+  public void setFieldValue(int fieldID, Object value) {
+    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
   }
 
   public Object getFieldValue(_Fields field) {
@@ -294,12 +272,12 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
+  public Object getFieldValue(int fieldId) {
+    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
+  }
 
+  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  public boolean isSet(_Fields field) {
     switch (field) {
     case COLUMN_FAMILY:
       return isSetColumn_family();
@@ -309,6 +287,10 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       return isSetColumn();
     }
     throw new IllegalStateException();
+  }
+
+  public boolean isSet(int fieldID) {
+    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -338,7 +320,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     if (this_present_super_column || that_present_super_column) {
       if (!(this_present_super_column && that_present_super_column))
         return false;
-      if (!this.super_column.equals(that.super_column))
+      if (!java.util.Arrays.equals(this.super_column, that.super_column))
         return false;
     }
 
@@ -347,7 +329,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     if (this_present_column || that_present_column) {
       if (!(this_present_column && that_present_column))
         return false;
-      if (!this.column.equals(that.column))
+      if (!java.util.Arrays.equals(this.column, that.column))
         return false;
     }
 
@@ -367,78 +349,71 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     int lastComparison = 0;
     ColumnPath typedOther = (ColumnPath)other;
 
-    lastComparison = Boolean.valueOf(isSetColumn_family()).compareTo(typedOther.isSetColumn_family());
+    lastComparison = Boolean.valueOf(isSetColumn_family()).compareTo(isSetColumn_family());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetColumn_family()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.column_family, typedOther.column_family);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetSuper_column()).compareTo(typedOther.isSetSuper_column());
+    lastComparison = TBaseHelper.compareTo(column_family, typedOther.column_family);
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetSuper_column()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.super_column, typedOther.super_column);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetColumn()).compareTo(typedOther.isSetColumn());
+    lastComparison = Boolean.valueOf(isSetSuper_column()).compareTo(isSetSuper_column());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetColumn()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.column, typedOther.column);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
+    lastComparison = TBaseHelper.compareTo(super_column, typedOther.super_column);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetColumn()).compareTo(isSetColumn());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(column, typedOther.column);
+    if (lastComparison != 0) {
+      return lastComparison;
     }
     return 0;
   }
 
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
-
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    org.apache.thrift.protocol.TField field;
+  public void read(TProtocol iprot) throws TException {
+    TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+      if (field.type == TType.STOP) { 
         break;
       }
-      switch (field.id) {
-        case 3: // COLUMN_FAMILY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.column_family = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 4: // SUPER_COLUMN
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.super_column = iprot.readBinary();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 5: // COLUMN
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.column = iprot.readBinary();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        default:
-          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+      _Fields fieldId = _Fields.findByThriftId(field.id);
+      if (fieldId == null) {
+        TProtocolUtil.skip(iprot, field.type);
+      } else {
+        switch (fieldId) {
+          case COLUMN_FAMILY:
+            if (field.type == TType.STRING) {
+              this.column_family = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case SUPER_COLUMN:
+            if (field.type == TType.STRING) {
+              this.super_column = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case COLUMN:
+            if (field.type == TType.STRING) {
+              this.column = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+        }
+        iprot.readFieldEnd();
       }
-      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
@@ -446,7 +421,7 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     validate();
   }
 
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(TProtocol oprot) throws TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -491,7 +466,12 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       if (this.super_column == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.super_column, sb);
+          int __super_column_size = Math.min(this.super_column.length, 128);
+          for (int i = 0; i < __super_column_size; i++) {
+            if (i != 0) sb.append(" ");
+            sb.append(Integer.toHexString(this.super_column[i]).length() > 1 ? Integer.toHexString(this.super_column[i]).substring(Integer.toHexString(this.super_column[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.super_column[i]).toUpperCase());
+          }
+          if (this.super_column.length > 128) sb.append(" ...");
       }
       first = false;
     }
@@ -501,7 +481,12 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
       if (this.column == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.column, sb);
+          int __column_size = Math.min(this.column.length, 128);
+          for (int i = 0; i < __column_size; i++) {
+            if (i != 0) sb.append(" ");
+            sb.append(Integer.toHexString(this.column[i]).length() > 1 ? Integer.toHexString(this.column[i]).substring(Integer.toHexString(this.column[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.column[i]).toUpperCase());
+          }
+          if (this.column.length > 128) sb.append(" ...");
       }
       first = false;
     }
@@ -509,26 +494,10 @@ public class ColumnPath implements org.apache.thrift.TBase<ColumnPath, ColumnPat
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws TException {
     // check for required fields
     if (column_family == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'column_family' was not present! Struct: " + toString());
-    }
-  }
-
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
+      throw new TProtocolException("Required field 'column_family' was not present! Struct: " + toString());
     }
   }
 

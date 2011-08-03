@@ -15,29 +15,34 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.thrift.*;
+import org.apache.thrift.meta_data.*;
+import org.apache.thrift.protocol.*;
+
 /**
  * Authentication requests can contain any data, dependent on the IAuthenticator used
  */
-public class AuthenticationRequest implements org.apache.thrift.TBase<AuthenticationRequest, AuthenticationRequest._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthenticationRequest");
+public class AuthenticationRequest implements TBase<AuthenticationRequest._Fields>, java.io.Serializable, Cloneable {
+  private static final TStruct STRUCT_DESC = new TStruct("AuthenticationRequest");
 
-  private static final org.apache.thrift.protocol.TField CREDENTIALS_FIELD_DESC = new org.apache.thrift.protocol.TField("credentials", org.apache.thrift.protocol.TType.MAP, (short)1);
+  private static final TField CREDENTIALS_FIELD_DESC = new TField("credentials", TType.MAP, (short)1);
 
   public Map<String,String> credentials;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements TFieldIdEnum {
     CREDENTIALS((short)1, "credentials");
 
+    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
+        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -46,12 +51,7 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 1: // CREDENTIALS
-          return CREDENTIALS;
-        default:
-          return null;
-      }
+      return byId.get(fieldId);
     }
 
     /**
@@ -90,15 +90,15 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
 
   // isset id assignments
 
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
+    put(_Fields.CREDENTIALS, new FieldMetaData("credentials", TFieldRequirementType.REQUIRED, 
+        new MapMetaData(TType.MAP, 
+            new FieldValueMetaData(TType.STRING), 
+            new FieldValueMetaData(TType.STRING))));
+  }});
+
   static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.CREDENTIALS, new org.apache.thrift.meta_data.FieldMetaData("credentials", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthenticationRequest.class, metaDataMap);
+    FieldMetaData.addStructMetaDataMap(AuthenticationRequest.class, metaDataMap);
   }
 
   public AuthenticationRequest() {
@@ -136,9 +136,9 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     return new AuthenticationRequest(this);
   }
 
-  @Override
-  public void clear() {
-    this.credentials = null;
+  @Deprecated
+  public AuthenticationRequest clone() {
+    return new AuthenticationRequest(this);
   }
 
   public int getCredentialsSize() {
@@ -165,7 +165,7 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     this.credentials = null;
   }
 
-  /** Returns true if field credentials is set (has been assigned a value) and false otherwise */
+  /** Returns true if field credentials is set (has been asigned a value) and false otherwise */
   public boolean isSetCredentials() {
     return this.credentials != null;
   }
@@ -189,6 +189,10 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     }
   }
 
+  public void setFieldValue(int fieldID, Object value) {
+    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
+  }
+
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case CREDENTIALS:
@@ -198,17 +202,21 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
+  public Object getFieldValue(int fieldId) {
+    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
+  }
 
+  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  public boolean isSet(_Fields field) {
     switch (field) {
     case CREDENTIALS:
       return isSetCredentials();
     }
     throw new IllegalStateException();
+  }
+
+  public boolean isSet(int fieldID) {
+    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -241,64 +249,42 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     return 0;
   }
 
-  public int compareTo(AuthenticationRequest other) {
-    if (!getClass().equals(other.getClass())) {
-      return getClass().getName().compareTo(other.getClass().getName());
-    }
-
-    int lastComparison = 0;
-    AuthenticationRequest typedOther = (AuthenticationRequest)other;
-
-    lastComparison = Boolean.valueOf(isSetCredentials()).compareTo(typedOther.isSetCredentials());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetCredentials()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.credentials, typedOther.credentials);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    return 0;
-  }
-
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
-
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    org.apache.thrift.protocol.TField field;
+  public void read(TProtocol iprot) throws TException {
+    TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+      if (field.type == TType.STOP) { 
         break;
       }
-      switch (field.id) {
-        case 1: // CREDENTIALS
-          if (field.type == org.apache.thrift.protocol.TType.MAP) {
-            {
-              org.apache.thrift.protocol.TMap _map24 = iprot.readMapBegin();
-              this.credentials = new HashMap<String,String>(2*_map24.size);
-              for (int _i25 = 0; _i25 < _map24.size; ++_i25)
+      _Fields fieldId = _Fields.findByThriftId(field.id);
+      if (fieldId == null) {
+        TProtocolUtil.skip(iprot, field.type);
+      } else {
+        switch (fieldId) {
+          case CREDENTIALS:
+            if (field.type == TType.MAP) {
               {
-                String _key26;
-                String _val27;
-                _key26 = iprot.readString();
-                _val27 = iprot.readString();
-                this.credentials.put(_key26, _val27);
+                TMap _map20 = iprot.readMapBegin();
+                this.credentials = new HashMap<String,String>(2*_map20.size);
+                for (int _i21 = 0; _i21 < _map20.size; ++_i21)
+                {
+                  String _key22;
+                  String _val23;
+                  _key22 = iprot.readString();
+                  _val23 = iprot.readString();
+                  this.credentials.put(_key22, _val23);
+                }
+                iprot.readMapEnd();
               }
-              iprot.readMapEnd();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
             }
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        default:
-          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            break;
+        }
+        iprot.readFieldEnd();
       }
-      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
@@ -306,18 +292,18 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     validate();
   }
 
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(TProtocol oprot) throws TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
     if (this.credentials != null) {
       oprot.writeFieldBegin(CREDENTIALS_FIELD_DESC);
       {
-        oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, this.credentials.size()));
-        for (Map.Entry<String, String> _iter28 : this.credentials.entrySet())
+        oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, this.credentials.size()));
+        for (Map.Entry<String, String> _iter24 : this.credentials.entrySet())
         {
-          oprot.writeString(_iter28.getKey());
-          oprot.writeString(_iter28.getValue());
+          oprot.writeString(_iter24.getKey());
+          oprot.writeString(_iter24.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -343,26 +329,10 @@ public class AuthenticationRequest implements org.apache.thrift.TBase<Authentica
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws TException {
     // check for required fields
     if (credentials == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'credentials' was not present! Struct: " + toString());
-    }
-  }
-
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
+      throw new TProtocolException("Required field 'credentials' was not present! Struct: " + toString());
     }
   }
 

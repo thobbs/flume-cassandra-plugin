@@ -15,10 +15,13 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.thrift.*;
+import org.apache.thrift.meta_data.*;
+import org.apache.thrift.protocol.*;
 
 /**
  * The semantics of start keys and tokens are slightly different.
@@ -28,33 +31,35 @@ import org.slf4j.LoggerFactory;
  * one-element range, but a range from tokenY to tokenY is the
  * full ring.
  */
-public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyRange");
+public class KeyRange implements TBase<KeyRange._Fields>, java.io.Serializable, Cloneable, Comparable<KeyRange> {
+  private static final TStruct STRUCT_DESC = new TStruct("KeyRange");
 
-  private static final org.apache.thrift.protocol.TField START_KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("start_key", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField END_KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("end_key", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField START_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("start_token", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField END_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("end_token", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("count", org.apache.thrift.protocol.TType.I32, (short)5);
+  private static final TField START_KEY_FIELD_DESC = new TField("start_key", TType.STRING, (short)1);
+  private static final TField END_KEY_FIELD_DESC = new TField("end_key", TType.STRING, (short)2);
+  private static final TField START_TOKEN_FIELD_DESC = new TField("start_token", TType.STRING, (short)3);
+  private static final TField END_TOKEN_FIELD_DESC = new TField("end_token", TType.STRING, (short)4);
+  private static final TField COUNT_FIELD_DESC = new TField("count", TType.I32, (short)5);
 
-  public ByteBuffer start_key;
-  public ByteBuffer end_key;
+  public byte[] start_key;
+  public byte[] end_key;
   public String start_token;
   public String end_token;
   public int count;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements TFieldIdEnum {
     START_KEY((short)1, "start_key"),
     END_KEY((short)2, "end_key"),
     START_TOKEN((short)3, "start_token"),
     END_TOKEN((short)4, "end_token"),
     COUNT((short)5, "count");
 
+    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
+        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -63,20 +68,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 1: // START_KEY
-          return START_KEY;
-        case 2: // END_KEY
-          return END_KEY;
-        case 3: // START_TOKEN
-          return START_TOKEN;
-        case 4: // END_TOKEN
-          return END_TOKEN;
-        case 5: // COUNT
-          return COUNT;
-        default:
-          return null;
-      }
+      return byId.get(fieldId);
     }
 
     /**
@@ -117,21 +109,21 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
   private static final int __COUNT_ISSET_ID = 0;
   private BitSet __isset_bit_vector = new BitSet(1);
 
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
+    put(_Fields.START_KEY, new FieldMetaData("start_key", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.END_KEY, new FieldMetaData("end_key", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.START_TOKEN, new FieldMetaData("start_token", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.END_TOKEN, new FieldMetaData("end_token", TFieldRequirementType.OPTIONAL, 
+        new FieldValueMetaData(TType.STRING)));
+    put(_Fields.COUNT, new FieldMetaData("count", TFieldRequirementType.REQUIRED, 
+        new FieldValueMetaData(TType.I32)));
+  }});
+
   static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.START_KEY, new org.apache.thrift.meta_data.FieldMetaData("start_key", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.END_KEY, new org.apache.thrift.meta_data.FieldMetaData("end_key", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.START_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("start_token", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.END_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("end_token", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.COUNT, new org.apache.thrift.meta_data.FieldMetaData("count", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyRange.class, metaDataMap);
+    FieldMetaData.addStructMetaDataMap(KeyRange.class, metaDataMap);
   }
 
   public KeyRange() {
@@ -154,12 +146,12 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     __isset_bit_vector.clear();
     __isset_bit_vector.or(other.__isset_bit_vector);
     if (other.isSetStart_key()) {
-      this.start_key = org.apache.thrift.TBaseHelper.copyBinary(other.start_key);
-;
+      this.start_key = new byte[other.start_key.length];
+      System.arraycopy(other.start_key, 0, start_key, 0, other.start_key.length);
     }
     if (other.isSetEnd_key()) {
-      this.end_key = org.apache.thrift.TBaseHelper.copyBinary(other.end_key);
-;
+      this.end_key = new byte[other.end_key.length];
+      System.arraycopy(other.end_key, 0, end_key, 0, other.end_key.length);
     }
     if (other.isSetStart_token()) {
       this.start_token = other.start_token;
@@ -174,31 +166,16 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     return new KeyRange(this);
   }
 
-  @Override
-  public void clear() {
-    this.start_key = null;
-    this.end_key = null;
-    this.start_token = null;
-    this.end_token = null;
-    this.count = 100;
-
+  @Deprecated
+  public KeyRange clone() {
+    return new KeyRange(this);
   }
 
   public byte[] getStart_key() {
-    setStart_key(org.apache.thrift.TBaseHelper.rightSize(start_key));
-    return start_key == null ? null : start_key.array();
-  }
-
-  public ByteBuffer bufferForStart_key() {
-    return start_key;
+    return this.start_key;
   }
 
   public KeyRange setStart_key(byte[] start_key) {
-    setStart_key(start_key == null ? (ByteBuffer)null : ByteBuffer.wrap(start_key));
-    return this;
-  }
-
-  public KeyRange setStart_key(ByteBuffer start_key) {
     this.start_key = start_key;
     return this;
   }
@@ -207,7 +184,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     this.start_key = null;
   }
 
-  /** Returns true if field start_key is set (has been assigned a value) and false otherwise */
+  /** Returns true if field start_key is set (has been asigned a value) and false otherwise */
   public boolean isSetStart_key() {
     return this.start_key != null;
   }
@@ -219,20 +196,10 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
   }
 
   public byte[] getEnd_key() {
-    setEnd_key(org.apache.thrift.TBaseHelper.rightSize(end_key));
-    return end_key == null ? null : end_key.array();
-  }
-
-  public ByteBuffer bufferForEnd_key() {
-    return end_key;
+    return this.end_key;
   }
 
   public KeyRange setEnd_key(byte[] end_key) {
-    setEnd_key(end_key == null ? (ByteBuffer)null : ByteBuffer.wrap(end_key));
-    return this;
-  }
-
-  public KeyRange setEnd_key(ByteBuffer end_key) {
     this.end_key = end_key;
     return this;
   }
@@ -241,7 +208,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     this.end_key = null;
   }
 
-  /** Returns true if field end_key is set (has been assigned a value) and false otherwise */
+  /** Returns true if field end_key is set (has been asigned a value) and false otherwise */
   public boolean isSetEnd_key() {
     return this.end_key != null;
   }
@@ -265,7 +232,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     this.start_token = null;
   }
 
-  /** Returns true if field start_token is set (has been assigned a value) and false otherwise */
+  /** Returns true if field start_token is set (has been asigned a value) and false otherwise */
   public boolean isSetStart_token() {
     return this.start_token != null;
   }
@@ -289,7 +256,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     this.end_token = null;
   }
 
-  /** Returns true if field end_token is set (has been assigned a value) and false otherwise */
+  /** Returns true if field end_token is set (has been asigned a value) and false otherwise */
   public boolean isSetEnd_token() {
     return this.end_token != null;
   }
@@ -314,7 +281,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     __isset_bit_vector.clear(__COUNT_ISSET_ID);
   }
 
-  /** Returns true if field count is set (has been assigned a value) and false otherwise */
+  /** Returns true if field count is set (has been asigned a value) and false otherwise */
   public boolean isSetCount() {
     return __isset_bit_vector.get(__COUNT_ISSET_ID);
   }
@@ -329,7 +296,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
       if (value == null) {
         unsetStart_key();
       } else {
-        setStart_key((ByteBuffer)value);
+        setStart_key((byte[])value);
       }
       break;
 
@@ -337,7 +304,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
       if (value == null) {
         unsetEnd_key();
       } else {
-        setEnd_key((ByteBuffer)value);
+        setEnd_key((byte[])value);
       }
       break;
 
@@ -368,6 +335,10 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     }
   }
 
+  public void setFieldValue(int fieldID, Object value) {
+    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
+  }
+
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case START_KEY:
@@ -389,12 +360,12 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
+  public Object getFieldValue(int fieldId) {
+    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
+  }
 
+  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  public boolean isSet(_Fields field) {
     switch (field) {
     case START_KEY:
       return isSetStart_key();
@@ -408,6 +379,10 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
       return isSetCount();
     }
     throw new IllegalStateException();
+  }
+
+  public boolean isSet(int fieldID) {
+    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -428,7 +403,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     if (this_present_start_key || that_present_start_key) {
       if (!(this_present_start_key && that_present_start_key))
         return false;
-      if (!this.start_key.equals(that.start_key))
+      if (!java.util.Arrays.equals(this.start_key, that.start_key))
         return false;
     }
 
@@ -437,7 +412,7 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     if (this_present_end_key || that_present_end_key) {
       if (!(this_present_end_key && that_present_end_key))
         return false;
-      if (!this.end_key.equals(that.end_key))
+      if (!java.util.Arrays.equals(this.end_key, that.end_key))
         return false;
     }
 
@@ -484,124 +459,113 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     int lastComparison = 0;
     KeyRange typedOther = (KeyRange)other;
 
-    lastComparison = Boolean.valueOf(isSetStart_key()).compareTo(typedOther.isSetStart_key());
+    lastComparison = Boolean.valueOf(isSetStart_key()).compareTo(isSetStart_key());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetStart_key()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start_key, typedOther.start_key);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetEnd_key()).compareTo(typedOther.isSetEnd_key());
+    lastComparison = TBaseHelper.compareTo(start_key, typedOther.start_key);
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetEnd_key()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.end_key, typedOther.end_key);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetStart_token()).compareTo(typedOther.isSetStart_token());
+    lastComparison = Boolean.valueOf(isSetEnd_key()).compareTo(isSetEnd_key());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetStart_token()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start_token, typedOther.start_token);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetEnd_token()).compareTo(typedOther.isSetEnd_token());
+    lastComparison = TBaseHelper.compareTo(end_key, typedOther.end_key);
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetEnd_token()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.end_token, typedOther.end_token);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetCount()).compareTo(typedOther.isSetCount());
+    lastComparison = Boolean.valueOf(isSetStart_token()).compareTo(isSetStart_token());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetCount()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.count, typedOther.count);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
+    lastComparison = TBaseHelper.compareTo(start_token, typedOther.start_token);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetEnd_token()).compareTo(isSetEnd_token());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(end_token, typedOther.end_token);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = Boolean.valueOf(isSetCount()).compareTo(isSetCount());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    lastComparison = TBaseHelper.compareTo(count, typedOther.count);
+    if (lastComparison != 0) {
+      return lastComparison;
     }
     return 0;
   }
 
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
-
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    org.apache.thrift.protocol.TField field;
+  public void read(TProtocol iprot) throws TException {
+    TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+      if (field.type == TType.STOP) { 
         break;
       }
-      switch (field.id) {
-        case 1: // START_KEY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.start_key = iprot.readBinary();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 2: // END_KEY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.end_key = iprot.readBinary();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 3: // START_TOKEN
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.start_token = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 4: // END_TOKEN
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.end_token = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 5: // COUNT
-          if (field.type == org.apache.thrift.protocol.TType.I32) {
-            this.count = iprot.readI32();
-            setCountIsSet(true);
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        default:
-          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+      _Fields fieldId = _Fields.findByThriftId(field.id);
+      if (fieldId == null) {
+        TProtocolUtil.skip(iprot, field.type);
+      } else {
+        switch (fieldId) {
+          case START_KEY:
+            if (field.type == TType.STRING) {
+              this.start_key = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case END_KEY:
+            if (field.type == TType.STRING) {
+              this.end_key = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case START_TOKEN:
+            if (field.type == TType.STRING) {
+              this.start_token = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case END_TOKEN:
+            if (field.type == TType.STRING) {
+              this.end_token = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case COUNT:
+            if (field.type == TType.I32) {
+              this.count = iprot.readI32();
+              setCountIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+        }
+        iprot.readFieldEnd();
       }
-      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!isSetCount()) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
+      throw new TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
     }
     validate();
   }
 
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(TProtocol oprot) throws TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -650,7 +614,12 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
       if (this.start_key == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.start_key, sb);
+          int __start_key_size = Math.min(this.start_key.length, 128);
+          for (int i = 0; i < __start_key_size; i++) {
+            if (i != 0) sb.append(" ");
+            sb.append(Integer.toHexString(this.start_key[i]).length() > 1 ? Integer.toHexString(this.start_key[i]).substring(Integer.toHexString(this.start_key[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.start_key[i]).toUpperCase());
+          }
+          if (this.start_key.length > 128) sb.append(" ...");
       }
       first = false;
     }
@@ -660,7 +629,12 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
       if (this.end_key == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.end_key, sb);
+          int __end_key_size = Math.min(this.end_key.length, 128);
+          for (int i = 0; i < __end_key_size; i++) {
+            if (i != 0) sb.append(" ");
+            sb.append(Integer.toHexString(this.end_key[i]).length() > 1 ? Integer.toHexString(this.end_key[i]).substring(Integer.toHexString(this.end_key[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.end_key[i]).toUpperCase());
+          }
+          if (this.end_key.length > 128) sb.append(" ...");
       }
       first = false;
     }
@@ -692,27 +666,9 @@ public class KeyRange implements org.apache.thrift.TBase<KeyRange, KeyRange._Fie
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws TException {
     // check for required fields
     // alas, we cannot check 'count' because it's a primitive and you chose the non-beans generator.
-  }
-
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bit_vector = new BitSet(1);
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
   }
 
 }
