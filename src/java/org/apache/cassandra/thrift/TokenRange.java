@@ -15,37 +15,32 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
+public class TokenRange implements org.apache.thrift.TBase<TokenRange, TokenRange._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("TokenRange");
 
-public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializable, Cloneable, Comparable<TokenRange> {
-  private static final TStruct STRUCT_DESC = new TStruct("TokenRange");
-
-  private static final TField START_TOKEN_FIELD_DESC = new TField("start_token", TType.STRING, (short)1);
-  private static final TField END_TOKEN_FIELD_DESC = new TField("end_token", TType.STRING, (short)2);
-  private static final TField ENDPOINTS_FIELD_DESC = new TField("endpoints", TType.LIST, (short)3);
+  private static final org.apache.thrift.protocol.TField START_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("start_token", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField END_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("end_token", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField ENDPOINTS_FIELD_DESC = new org.apache.thrift.protocol.TField("endpoints", org.apache.thrift.protocol.TType.LIST, (short)3);
 
   public String start_token;
   public String end_token;
   public List<String> endpoints;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     START_TOKEN((short)1, "start_token"),
     END_TOKEN((short)2, "end_token"),
     ENDPOINTS((short)3, "endpoints");
 
-    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -54,7 +49,16 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      return byId.get(fieldId);
+      switch(fieldId) {
+        case 1: // START_TOKEN
+          return START_TOKEN;
+        case 2: // END_TOKEN
+          return END_TOKEN;
+        case 3: // ENDPOINTS
+          return ENDPOINTS;
+        default:
+          return null;
+      }
     }
 
     /**
@@ -93,18 +97,18 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
 
   // isset id assignments
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
-    put(_Fields.START_TOKEN, new FieldMetaData("start_token", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.END_TOKEN, new FieldMetaData("end_token", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.ENDPOINTS, new FieldMetaData("endpoints", TFieldRequirementType.REQUIRED, 
-        new ListMetaData(TType.LIST, 
-            new FieldValueMetaData(TType.STRING))));
-  }});
-
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    FieldMetaData.addStructMetaDataMap(TokenRange.class, metaDataMap);
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.START_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("start_token", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.END_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("end_token", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.ENDPOINTS, new org.apache.thrift.meta_data.FieldMetaData("endpoints", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+    metaDataMap = Collections.unmodifiableMap(tmpMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(TokenRange.class, metaDataMap);
   }
 
   public TokenRange() {
@@ -144,9 +148,11 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     return new TokenRange(this);
   }
 
-  @Deprecated
-  public TokenRange clone() {
-    return new TokenRange(this);
+  @Override
+  public void clear() {
+    this.start_token = null;
+    this.end_token = null;
+    this.endpoints = null;
   }
 
   public String getStart_token() {
@@ -162,7 +168,7 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     this.start_token = null;
   }
 
-  /** Returns true if field start_token is set (has been asigned a value) and false otherwise */
+  /** Returns true if field start_token is set (has been assigned a value) and false otherwise */
   public boolean isSetStart_token() {
     return this.start_token != null;
   }
@@ -186,7 +192,7 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     this.end_token = null;
   }
 
-  /** Returns true if field end_token is set (has been asigned a value) and false otherwise */
+  /** Returns true if field end_token is set (has been assigned a value) and false otherwise */
   public boolean isSetEnd_token() {
     return this.end_token != null;
   }
@@ -225,7 +231,7 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     this.endpoints = null;
   }
 
-  /** Returns true if field endpoints is set (has been asigned a value) and false otherwise */
+  /** Returns true if field endpoints is set (has been assigned a value) and false otherwise */
   public boolean isSetEndpoints() {
     return this.endpoints != null;
   }
@@ -265,10 +271,6 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     }
   }
 
-  public void setFieldValue(int fieldID, Object value) {
-    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
-  }
-
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case START_TOKEN:
@@ -284,12 +286,12 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     throw new IllegalStateException();
   }
 
-  public Object getFieldValue(int fieldId) {
-    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
-  }
-
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
+    if (field == null) {
+      throw new IllegalArgumentException();
+    }
+
     switch (field) {
     case START_TOKEN:
       return isSetStart_token();
@@ -299,10 +301,6 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
       return isSetEndpoints();
     }
     throw new IllegalStateException();
-  }
-
-  public boolean isSet(int fieldID) {
-    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -361,81 +359,88 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     int lastComparison = 0;
     TokenRange typedOther = (TokenRange)other;
 
-    lastComparison = Boolean.valueOf(isSetStart_token()).compareTo(isSetStart_token());
+    lastComparison = Boolean.valueOf(isSetStart_token()).compareTo(typedOther.isSetStart_token());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(start_token, typedOther.start_token);
+    if (isSetStart_token()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start_token, typedOther.start_token);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetEnd_token()).compareTo(typedOther.isSetEnd_token());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetEnd_token()).compareTo(isSetEnd_token());
+    if (isSetEnd_token()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.end_token, typedOther.end_token);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetEndpoints()).compareTo(typedOther.isSetEndpoints());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(end_token, typedOther.end_token);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = Boolean.valueOf(isSetEndpoints()).compareTo(isSetEndpoints());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(endpoints, typedOther.endpoints);
-    if (lastComparison != 0) {
-      return lastComparison;
+    if (isSetEndpoints()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.endpoints, typedOther.endpoints);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
     }
     return 0;
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public _Fields fieldForId(int fieldId) {
+    return _Fields.findByThriftId(fieldId);
+  }
+
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
-      _Fields fieldId = _Fields.findByThriftId(field.id);
-      if (fieldId == null) {
-        TProtocolUtil.skip(iprot, field.type);
-      } else {
-        switch (fieldId) {
-          case START_TOKEN:
-            if (field.type == TType.STRING) {
-              this.start_token = iprot.readString();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case END_TOKEN:
-            if (field.type == TType.STRING) {
-              this.end_token = iprot.readString();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case ENDPOINTS:
-            if (field.type == TType.LIST) {
+      switch (field.id) {
+        case 1: // START_TOKEN
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.start_token = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 2: // END_TOKEN
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.end_token = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 3: // ENDPOINTS
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            {
+              org.apache.thrift.protocol.TList _list20 = iprot.readListBegin();
+              this.endpoints = new ArrayList<String>(_list20.size);
+              for (int _i21 = 0; _i21 < _list20.size; ++_i21)
               {
-                TList _list16 = iprot.readListBegin();
-                this.endpoints = new ArrayList<String>(_list16.size);
-                for (int _i17 = 0; _i17 < _list16.size; ++_i17)
-                {
-                  String _elem18;
-                  _elem18 = iprot.readString();
-                  this.endpoints.add(_elem18);
-                }
-                iprot.readListEnd();
+                String _elem22;
+                _elem22 = iprot.readString();
+                this.endpoints.add(_elem22);
               }
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              iprot.readListEnd();
             }
-            break;
-        }
-        iprot.readFieldEnd();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        default:
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
+      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
@@ -443,7 +448,7 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -460,10 +465,10 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     if (this.endpoints != null) {
       oprot.writeFieldBegin(ENDPOINTS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRING, this.endpoints.size()));
-        for (String _iter19 : this.endpoints)
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.endpoints.size()));
+        for (String _iter23 : this.endpoints)
         {
-          oprot.writeString(_iter19);
+          oprot.writeString(_iter23);
         }
         oprot.writeListEnd();
       }
@@ -505,16 +510,32 @@ public class TokenRange implements TBase<TokenRange._Fields>, java.io.Serializab
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
     if (start_token == null) {
-      throw new TProtocolException("Required field 'start_token' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'start_token' was not present! Struct: " + toString());
     }
     if (end_token == null) {
-      throw new TProtocolException("Required field 'end_token' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'end_token' was not present! Struct: " + toString());
     }
     if (endpoints == null) {
-      throw new TProtocolException("Required field 'endpoints' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'endpoints' was not present! Struct: " + toString());
+    }
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
     }
   }
 
