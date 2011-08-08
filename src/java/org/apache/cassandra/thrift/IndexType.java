@@ -9,14 +9,9 @@ package org.apache.cassandra.thrift;
 import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
-public enum IndexType implements TEnum{
-    KEYS(0);
 
-  private static final Map<Integer, IndexType> BY_VALUE = new HashMap<Integer,IndexType>() {{
-    for(IndexType val : IndexType.values()) {
-      put(val.getValue(), val);
-    }
-  }};
+public enum IndexType implements org.apache.thrift.TEnum {
+  KEYS(0);
 
   private final int value;
 
@@ -36,6 +31,11 @@ public enum IndexType implements TEnum{
    * @return null if the value is not found.
    */
   public static IndexType findByValue(int value) { 
-    return BY_VALUE.get(value);
+    switch (value) {
+      case 0:
+        return KEYS;
+      default:
+        return null;
+    }
   }
 }

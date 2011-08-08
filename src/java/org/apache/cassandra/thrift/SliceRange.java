@@ -15,13 +15,10 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
 
 /**
  * A slice range is a structure that stores basic range, ordering and limit information for a query that will return
@@ -39,32 +36,30 @@ import org.apache.thrift.protocol.*;
  *               be better served by iterating through slices by passing the last value of one call in as the 'start'
  *               of the next instead of increasing 'count' arbitrarily large.
  */
-public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializable, Cloneable, Comparable<SliceRange> {
-  private static final TStruct STRUCT_DESC = new TStruct("SliceRange");
+public class SliceRange implements org.apache.thrift.TBase<SliceRange, SliceRange._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("SliceRange");
 
-  private static final TField START_FIELD_DESC = new TField("start", TType.STRING, (short)1);
-  private static final TField FINISH_FIELD_DESC = new TField("finish", TType.STRING, (short)2);
-  private static final TField REVERSED_FIELD_DESC = new TField("reversed", TType.BOOL, (short)3);
-  private static final TField COUNT_FIELD_DESC = new TField("count", TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField START_FIELD_DESC = new org.apache.thrift.protocol.TField("start", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField FINISH_FIELD_DESC = new org.apache.thrift.protocol.TField("finish", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField REVERSED_FIELD_DESC = new org.apache.thrift.protocol.TField("reversed", org.apache.thrift.protocol.TType.BOOL, (short)3);
+  private static final org.apache.thrift.protocol.TField COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("count", org.apache.thrift.protocol.TType.I32, (short)4);
 
-  public byte[] start;
-  public byte[] finish;
+  public ByteBuffer start;
+  public ByteBuffer finish;
   public boolean reversed;
   public int count;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     START((short)1, "start"),
     FINISH((short)2, "finish"),
     REVERSED((short)3, "reversed"),
     COUNT((short)4, "count");
 
-    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -73,7 +68,18 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      return byId.get(fieldId);
+      switch(fieldId) {
+        case 1: // START
+          return START;
+        case 2: // FINISH
+          return FINISH;
+        case 3: // REVERSED
+          return REVERSED;
+        case 4: // COUNT
+          return COUNT;
+        default:
+          return null;
+      }
     }
 
     /**
@@ -115,19 +121,19 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
   private static final int __COUNT_ISSET_ID = 1;
   private BitSet __isset_bit_vector = new BitSet(2);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
-    put(_Fields.START, new FieldMetaData("start", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.FINISH, new FieldMetaData("finish", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.REVERSED, new FieldMetaData("reversed", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.BOOL)));
-    put(_Fields.COUNT, new FieldMetaData("count", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.I32)));
-  }});
-
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    FieldMetaData.addStructMetaDataMap(SliceRange.class, metaDataMap);
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.START, new org.apache.thrift.meta_data.FieldMetaData("start", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.FINISH, new org.apache.thrift.meta_data.FieldMetaData("finish", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.REVERSED, new org.apache.thrift.meta_data.FieldMetaData("reversed", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.COUNT, new org.apache.thrift.meta_data.FieldMetaData("count", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    metaDataMap = Collections.unmodifiableMap(tmpMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SliceRange.class, metaDataMap);
   }
 
   public SliceRange() {
@@ -138,8 +144,8 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
   }
 
   public SliceRange(
-    byte[] start,
-    byte[] finish,
+    ByteBuffer start,
+    ByteBuffer finish,
     boolean reversed,
     int count)
   {
@@ -159,12 +165,12 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     __isset_bit_vector.clear();
     __isset_bit_vector.or(other.__isset_bit_vector);
     if (other.isSetStart()) {
-      this.start = new byte[other.start.length];
-      System.arraycopy(other.start, 0, start, 0, other.start.length);
+      this.start = org.apache.thrift.TBaseHelper.copyBinary(other.start);
+;
     }
     if (other.isSetFinish()) {
-      this.finish = new byte[other.finish.length];
-      System.arraycopy(other.finish, 0, finish, 0, other.finish.length);
+      this.finish = org.apache.thrift.TBaseHelper.copyBinary(other.finish);
+;
     }
     this.reversed = other.reversed;
     this.count = other.count;
@@ -174,16 +180,31 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     return new SliceRange(this);
   }
 
-  @Deprecated
-  public SliceRange clone() {
-    return new SliceRange(this);
+  @Override
+  public void clear() {
+    this.start = null;
+    this.finish = null;
+    this.reversed = false;
+
+    this.count = 100;
+
   }
 
   public byte[] getStart() {
-    return this.start;
+    setStart(org.apache.thrift.TBaseHelper.rightSize(start));
+    return start == null ? null : start.array();
+  }
+
+  public ByteBuffer bufferForStart() {
+    return start;
   }
 
   public SliceRange setStart(byte[] start) {
+    setStart(start == null ? (ByteBuffer)null : ByteBuffer.wrap(start));
+    return this;
+  }
+
+  public SliceRange setStart(ByteBuffer start) {
     this.start = start;
     return this;
   }
@@ -192,7 +213,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     this.start = null;
   }
 
-  /** Returns true if field start is set (has been asigned a value) and false otherwise */
+  /** Returns true if field start is set (has been assigned a value) and false otherwise */
   public boolean isSetStart() {
     return this.start != null;
   }
@@ -204,10 +225,20 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
   }
 
   public byte[] getFinish() {
-    return this.finish;
+    setFinish(org.apache.thrift.TBaseHelper.rightSize(finish));
+    return finish == null ? null : finish.array();
+  }
+
+  public ByteBuffer bufferForFinish() {
+    return finish;
   }
 
   public SliceRange setFinish(byte[] finish) {
+    setFinish(finish == null ? (ByteBuffer)null : ByteBuffer.wrap(finish));
+    return this;
+  }
+
+  public SliceRange setFinish(ByteBuffer finish) {
     this.finish = finish;
     return this;
   }
@@ -216,7 +247,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     this.finish = null;
   }
 
-  /** Returns true if field finish is set (has been asigned a value) and false otherwise */
+  /** Returns true if field finish is set (has been assigned a value) and false otherwise */
   public boolean isSetFinish() {
     return this.finish != null;
   }
@@ -241,7 +272,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     __isset_bit_vector.clear(__REVERSED_ISSET_ID);
   }
 
-  /** Returns true if field reversed is set (has been asigned a value) and false otherwise */
+  /** Returns true if field reversed is set (has been assigned a value) and false otherwise */
   public boolean isSetReversed() {
     return __isset_bit_vector.get(__REVERSED_ISSET_ID);
   }
@@ -264,7 +295,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     __isset_bit_vector.clear(__COUNT_ISSET_ID);
   }
 
-  /** Returns true if field count is set (has been asigned a value) and false otherwise */
+  /** Returns true if field count is set (has been assigned a value) and false otherwise */
   public boolean isSetCount() {
     return __isset_bit_vector.get(__COUNT_ISSET_ID);
   }
@@ -279,7 +310,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
       if (value == null) {
         unsetStart();
       } else {
-        setStart((byte[])value);
+        setStart((ByteBuffer)value);
       }
       break;
 
@@ -287,7 +318,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
       if (value == null) {
         unsetFinish();
       } else {
-        setFinish((byte[])value);
+        setFinish((ByteBuffer)value);
       }
       break;
 
@@ -310,10 +341,6 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     }
   }
 
-  public void setFieldValue(int fieldID, Object value) {
-    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
-  }
-
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case START:
@@ -332,12 +359,12 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     throw new IllegalStateException();
   }
 
-  public Object getFieldValue(int fieldId) {
-    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
-  }
-
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
+    if (field == null) {
+      throw new IllegalArgumentException();
+    }
+
     switch (field) {
     case START:
       return isSetStart();
@@ -349,10 +376,6 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
       return isSetCount();
     }
     throw new IllegalStateException();
-  }
-
-  public boolean isSet(int fieldID) {
-    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -373,7 +396,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     if (this_present_start || that_present_start) {
       if (!(this_present_start && that_present_start))
         return false;
-      if (!java.util.Arrays.equals(this.start, that.start))
+      if (!this.start.equals(that.start))
         return false;
     }
 
@@ -382,7 +405,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     if (this_present_finish || that_present_finish) {
       if (!(this_present_finish && that_present_finish))
         return false;
-      if (!java.util.Arrays.equals(this.finish, that.finish))
+      if (!this.finish.equals(that.finish))
         return false;
     }
 
@@ -420,102 +443,111 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     int lastComparison = 0;
     SliceRange typedOther = (SliceRange)other;
 
-    lastComparison = Boolean.valueOf(isSetStart()).compareTo(isSetStart());
+    lastComparison = Boolean.valueOf(isSetStart()).compareTo(typedOther.isSetStart());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(start, typedOther.start);
+    if (isSetStart()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start, typedOther.start);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetFinish()).compareTo(typedOther.isSetFinish());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetFinish()).compareTo(isSetFinish());
+    if (isSetFinish()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.finish, typedOther.finish);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetReversed()).compareTo(typedOther.isSetReversed());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(finish, typedOther.finish);
+    if (isSetReversed()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.reversed, typedOther.reversed);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetCount()).compareTo(typedOther.isSetCount());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetReversed()).compareTo(isSetReversed());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(reversed, typedOther.reversed);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = Boolean.valueOf(isSetCount()).compareTo(isSetCount());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(count, typedOther.count);
-    if (lastComparison != 0) {
-      return lastComparison;
+    if (isSetCount()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.count, typedOther.count);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
     }
     return 0;
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public _Fields fieldForId(int fieldId) {
+    return _Fields.findByThriftId(fieldId);
+  }
+
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
-      _Fields fieldId = _Fields.findByThriftId(field.id);
-      if (fieldId == null) {
-        TProtocolUtil.skip(iprot, field.type);
-      } else {
-        switch (fieldId) {
-          case START:
-            if (field.type == TType.STRING) {
-              this.start = iprot.readBinary();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case FINISH:
-            if (field.type == TType.STRING) {
-              this.finish = iprot.readBinary();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case REVERSED:
-            if (field.type == TType.BOOL) {
-              this.reversed = iprot.readBool();
-              setReversedIsSet(true);
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case COUNT:
-            if (field.type == TType.I32) {
-              this.count = iprot.readI32();
-              setCountIsSet(true);
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-        }
-        iprot.readFieldEnd();
+      switch (field.id) {
+        case 1: // START
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.start = iprot.readBinary();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 2: // FINISH
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.finish = iprot.readBinary();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 3: // REVERSED
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
+            this.reversed = iprot.readBool();
+            setReversedIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 4: // COUNT
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
+            this.count = iprot.readI32();
+            setCountIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        default:
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
+      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!isSetReversed()) {
-      throw new TProtocolException("Required field 'reversed' was not found in serialized data! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'reversed' was not found in serialized data! Struct: " + toString());
     }
     if (!isSetCount()) {
-      throw new TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
     }
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -548,12 +580,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     if (this.start == null) {
       sb.append("null");
     } else {
-        int __start_size = Math.min(this.start.length, 128);
-        for (int i = 0; i < __start_size; i++) {
-          if (i != 0) sb.append(" ");
-          sb.append(Integer.toHexString(this.start[i]).length() > 1 ? Integer.toHexString(this.start[i]).substring(Integer.toHexString(this.start[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.start[i]).toUpperCase());
-        }
-        if (this.start.length > 128) sb.append(" ...");
+      org.apache.thrift.TBaseHelper.toString(this.start, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -561,12 +588,7 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     if (this.finish == null) {
       sb.append("null");
     } else {
-        int __finish_size = Math.min(this.finish.length, 128);
-        for (int i = 0; i < __finish_size; i++) {
-          if (i != 0) sb.append(" ");
-          sb.append(Integer.toHexString(this.finish[i]).length() > 1 ? Integer.toHexString(this.finish[i]).substring(Integer.toHexString(this.finish[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.finish[i]).toUpperCase());
-        }
-        if (this.finish.length > 128) sb.append(" ...");
+      org.apache.thrift.TBaseHelper.toString(this.finish, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -581,16 +603,34 @@ public class SliceRange implements TBase<SliceRange._Fields>, java.io.Serializab
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
     if (start == null) {
-      throw new TProtocolException("Required field 'start' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'start' was not present! Struct: " + toString());
     }
     if (finish == null) {
-      throw new TProtocolException("Required field 'finish' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'finish' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'reversed' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'count' because it's a primitive and you chose the non-beans generator.
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

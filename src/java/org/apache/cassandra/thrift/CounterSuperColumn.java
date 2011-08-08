@@ -20,20 +20,14 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * A named list of columns.
- * @param name. see Column.name.
- * @param columns. A collection of standard Columns.  The columns within a super column are defined in an adhoc manner.
- *                 Columns within a super column do not have to have matching structures (similarly named child columns).
- */
-public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperColumn._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("SuperColumn");
+public class CounterSuperColumn implements org.apache.thrift.TBase<CounterSuperColumn, CounterSuperColumn._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CounterSuperColumn");
 
   private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField COLUMNS_FIELD_DESC = new org.apache.thrift.protocol.TField("columns", org.apache.thrift.protocol.TType.LIST, (short)2);
 
   public ByteBuffer name;
-  public List<Column> columns;
+  public List<CounterColumn> columns;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -105,17 +99,17 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
     tmpMap.put(_Fields.COLUMNS, new org.apache.thrift.meta_data.FieldMetaData("columns", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Column.class))));
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CounterColumn.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SuperColumn.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CounterSuperColumn.class, metaDataMap);
   }
 
-  public SuperColumn() {
+  public CounterSuperColumn() {
   }
 
-  public SuperColumn(
+  public CounterSuperColumn(
     ByteBuffer name,
-    List<Column> columns)
+    List<CounterColumn> columns)
   {
     this();
     this.name = name;
@@ -125,22 +119,22 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public SuperColumn(SuperColumn other) {
+  public CounterSuperColumn(CounterSuperColumn other) {
     if (other.isSetName()) {
       this.name = org.apache.thrift.TBaseHelper.copyBinary(other.name);
 ;
     }
     if (other.isSetColumns()) {
-      List<Column> __this__columns = new ArrayList<Column>();
-      for (Column other_element : other.columns) {
-        __this__columns.add(new Column(other_element));
+      List<CounterColumn> __this__columns = new ArrayList<CounterColumn>();
+      for (CounterColumn other_element : other.columns) {
+        __this__columns.add(new CounterColumn(other_element));
       }
       this.columns = __this__columns;
     }
   }
 
-  public SuperColumn deepCopy() {
-    return new SuperColumn(this);
+  public CounterSuperColumn deepCopy() {
+    return new CounterSuperColumn(this);
   }
 
   @Override
@@ -158,12 +152,12 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
     return name;
   }
 
-  public SuperColumn setName(byte[] name) {
+  public CounterSuperColumn setName(byte[] name) {
     setName(name == null ? (ByteBuffer)null : ByteBuffer.wrap(name));
     return this;
   }
 
-  public SuperColumn setName(ByteBuffer name) {
+  public CounterSuperColumn setName(ByteBuffer name) {
     this.name = name;
     return this;
   }
@@ -187,22 +181,22 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
     return (this.columns == null) ? 0 : this.columns.size();
   }
 
-  public java.util.Iterator<Column> getColumnsIterator() {
+  public java.util.Iterator<CounterColumn> getColumnsIterator() {
     return (this.columns == null) ? null : this.columns.iterator();
   }
 
-  public void addToColumns(Column elem) {
+  public void addToColumns(CounterColumn elem) {
     if (this.columns == null) {
-      this.columns = new ArrayList<Column>();
+      this.columns = new ArrayList<CounterColumn>();
     }
     this.columns.add(elem);
   }
 
-  public List<Column> getColumns() {
+  public List<CounterColumn> getColumns() {
     return this.columns;
   }
 
-  public SuperColumn setColumns(List<Column> columns) {
+  public CounterSuperColumn setColumns(List<CounterColumn> columns) {
     this.columns = columns;
     return this;
   }
@@ -236,7 +230,7 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
       if (value == null) {
         unsetColumns();
       } else {
-        setColumns((List<Column>)value);
+        setColumns((List<CounterColumn>)value);
       }
       break;
 
@@ -274,12 +268,12 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof SuperColumn)
-      return this.equals((SuperColumn)that);
+    if (that instanceof CounterSuperColumn)
+      return this.equals((CounterSuperColumn)that);
     return false;
   }
 
-  public boolean equals(SuperColumn that) {
+  public boolean equals(CounterSuperColumn that) {
     if (that == null)
       return false;
 
@@ -309,13 +303,13 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
     return 0;
   }
 
-  public int compareTo(SuperColumn other) {
+  public int compareTo(CounterSuperColumn other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    SuperColumn typedOther = (SuperColumn)other;
+    CounterSuperColumn typedOther = (CounterSuperColumn)other;
 
     lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
     if (lastComparison != 0) {
@@ -364,14 +358,14 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
         case 2: // COLUMNS
           if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-              this.columns = new ArrayList<Column>(_list0.size);
-              for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+              org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+              this.columns = new ArrayList<CounterColumn>(_list4.size);
+              for (int _i5 = 0; _i5 < _list4.size; ++_i5)
               {
-                Column _elem2;
-                _elem2 = new Column();
-                _elem2.read(iprot);
-                this.columns.add(_elem2);
+                CounterColumn _elem6;
+                _elem6 = new CounterColumn();
+                _elem6.read(iprot);
+                this.columns.add(_elem6);
               }
               iprot.readListEnd();
             }
@@ -403,9 +397,9 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
       oprot.writeFieldBegin(COLUMNS_FIELD_DESC);
       {
         oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.columns.size()));
-        for (Column _iter3 : this.columns)
+        for (CounterColumn _iter7 : this.columns)
         {
-          _iter3.write(oprot);
+          _iter7.write(oprot);
         }
         oprot.writeListEnd();
       }
@@ -417,7 +411,7 @@ public class SuperColumn implements org.apache.thrift.TBase<SuperColumn, SuperCo
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("SuperColumn(");
+    StringBuilder sb = new StringBuilder("CounterSuperColumn(");
     boolean first = true;
 
     sb.append("name:");

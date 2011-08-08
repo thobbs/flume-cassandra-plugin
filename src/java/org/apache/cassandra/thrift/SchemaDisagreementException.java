@@ -21,18 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * invalid authorization request (user does not have access to keyspace)
+ * schemas are not in agreement across all nodes
  */
-public class AuthorizationException extends Exception implements org.apache.thrift.TBase<AuthorizationException, AuthorizationException._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthorizationException");
+public class SchemaDisagreementException extends Exception implements org.apache.thrift.TBase<SchemaDisagreementException, SchemaDisagreementException._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("SchemaDisagreementException");
 
-  private static final org.apache.thrift.protocol.TField WHY_FIELD_DESC = new org.apache.thrift.protocol.TField("why", org.apache.thrift.protocol.TType.STRING, (short)1);
 
-  public String why;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    WHY((short)1, "why");
+;
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -47,8 +45,6 @@ public class AuthorizationException extends Exception implements org.apache.thri
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // WHY
-          return WHY;
         default:
           return null;
       }
@@ -87,88 +83,37 @@ public class AuthorizationException extends Exception implements org.apache.thri
       return _fieldName;
     }
   }
-
-  // isset id assignments
-
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.WHY, new org.apache.thrift.meta_data.FieldMetaData("why", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthorizationException.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SchemaDisagreementException.class, metaDataMap);
   }
 
-  public AuthorizationException() {
-  }
-
-  public AuthorizationException(
-    String why)
-  {
-    this();
-    this.why = why;
+  public SchemaDisagreementException() {
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public AuthorizationException(AuthorizationException other) {
-    if (other.isSetWhy()) {
-      this.why = other.why;
-    }
+  public SchemaDisagreementException(SchemaDisagreementException other) {
   }
 
-  public AuthorizationException deepCopy() {
-    return new AuthorizationException(this);
+  public SchemaDisagreementException deepCopy() {
+    return new SchemaDisagreementException(this);
   }
 
   @Override
   public void clear() {
-    this.why = null;
-  }
-
-  public String getWhy() {
-    return this.why;
-  }
-
-  public AuthorizationException setWhy(String why) {
-    this.why = why;
-    return this;
-  }
-
-  public void unsetWhy() {
-    this.why = null;
-  }
-
-  /** Returns true if field why is set (has been assigned a value) and false otherwise */
-  public boolean isSetWhy() {
-    return this.why != null;
-  }
-
-  public void setWhyIsSet(boolean value) {
-    if (!value) {
-      this.why = null;
-    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case WHY:
-      if (value == null) {
-        unsetWhy();
-      } else {
-        setWhy((String)value);
-      }
-      break;
-
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case WHY:
-      return getWhy();
-
     }
     throw new IllegalStateException();
   }
@@ -180,8 +125,6 @@ public class AuthorizationException extends Exception implements org.apache.thri
     }
 
     switch (field) {
-    case WHY:
-      return isSetWhy();
     }
     throw new IllegalStateException();
   }
@@ -190,23 +133,14 @@ public class AuthorizationException extends Exception implements org.apache.thri
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof AuthorizationException)
-      return this.equals((AuthorizationException)that);
+    if (that instanceof SchemaDisagreementException)
+      return this.equals((SchemaDisagreementException)that);
     return false;
   }
 
-  public boolean equals(AuthorizationException that) {
+  public boolean equals(SchemaDisagreementException that) {
     if (that == null)
       return false;
-
-    boolean this_present_why = true && this.isSetWhy();
-    boolean that_present_why = true && that.isSetWhy();
-    if (this_present_why || that_present_why) {
-      if (!(this_present_why && that_present_why))
-        return false;
-      if (!this.why.equals(that.why))
-        return false;
-    }
 
     return true;
   }
@@ -216,24 +150,14 @@ public class AuthorizationException extends Exception implements org.apache.thri
     return 0;
   }
 
-  public int compareTo(AuthorizationException other) {
+  public int compareTo(SchemaDisagreementException other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    AuthorizationException typedOther = (AuthorizationException)other;
+    SchemaDisagreementException typedOther = (SchemaDisagreementException)other;
 
-    lastComparison = Boolean.valueOf(isSetWhy()).compareTo(typedOther.isSetWhy());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetWhy()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.why, typedOther.why);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -251,13 +175,6 @@ public class AuthorizationException extends Exception implements org.apache.thri
         break;
       }
       switch (field.id) {
-        case 1: // WHY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.why = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -273,36 +190,21 @@ public class AuthorizationException extends Exception implements org.apache.thri
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.why != null) {
-      oprot.writeFieldBegin(WHY_FIELD_DESC);
-      oprot.writeString(this.why);
-      oprot.writeFieldEnd();
-    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("AuthorizationException(");
+    StringBuilder sb = new StringBuilder("SchemaDisagreementException(");
     boolean first = true;
 
-    sb.append("why:");
-    if (this.why == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.why);
-    }
-    first = false;
     sb.append(")");
     return sb.toString();
   }
 
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
-    if (why == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'why' was not present! Struct: " + toString());
-    }
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {

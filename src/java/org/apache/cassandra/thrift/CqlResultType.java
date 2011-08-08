@@ -10,16 +10,14 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum IndexOperator implements org.apache.thrift.TEnum {
-  EQ(0),
-  GTE(1),
-  GT(2),
-  LTE(3),
-  LT(4);
+public enum CqlResultType implements org.apache.thrift.TEnum {
+  ROWS(1),
+  VOID(2),
+  INT(3);
 
   private final int value;
 
-  private IndexOperator(int value) {
+  private CqlResultType(int value) {
     this.value = value;
   }
 
@@ -34,18 +32,14 @@ public enum IndexOperator implements org.apache.thrift.TEnum {
    * Find a the enum type by its integer value, as defined in the Thrift IDL.
    * @return null if the value is not found.
    */
-  public static IndexOperator findByValue(int value) { 
+  public static CqlResultType findByValue(int value) { 
     switch (value) {
-      case 0:
-        return EQ;
       case 1:
-        return GTE;
+        return ROWS;
       case 2:
-        return GT;
+        return VOID;
       case 3:
-        return LTE;
-      case 4:
-        return LT;
+        return INT;
       default:
         return null;
     }

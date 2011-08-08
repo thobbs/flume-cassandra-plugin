@@ -15,37 +15,32 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
+public class IndexClause implements org.apache.thrift.TBase<IndexClause, IndexClause._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("IndexClause");
 
-public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializable, Cloneable, Comparable<IndexClause> {
-  private static final TStruct STRUCT_DESC = new TStruct("IndexClause");
-
-  private static final TField EXPRESSIONS_FIELD_DESC = new TField("expressions", TType.LIST, (short)1);
-  private static final TField START_KEY_FIELD_DESC = new TField("start_key", TType.STRING, (short)2);
-  private static final TField COUNT_FIELD_DESC = new TField("count", TType.I32, (short)3);
+  private static final org.apache.thrift.protocol.TField EXPRESSIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("expressions", org.apache.thrift.protocol.TType.LIST, (short)1);
+  private static final org.apache.thrift.protocol.TField START_KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("start_key", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("count", org.apache.thrift.protocol.TType.I32, (short)3);
 
   public List<IndexExpression> expressions;
-  public byte[] start_key;
+  public ByteBuffer start_key;
   public int count;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     EXPRESSIONS((short)1, "expressions"),
     START_KEY((short)2, "start_key"),
     COUNT((short)3, "count");
 
-    private static final Map<Integer, _Fields> byId = new HashMap<Integer, _Fields>();
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
     static {
       for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byId.put((int)field._thriftId, field);
         byName.put(field.getFieldName(), field);
       }
     }
@@ -54,7 +49,16 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      return byId.get(fieldId);
+      switch(fieldId) {
+        case 1: // EXPRESSIONS
+          return EXPRESSIONS;
+        case 2: // START_KEY
+          return START_KEY;
+        case 3: // COUNT
+          return COUNT;
+        default:
+          return null;
+      }
     }
 
     /**
@@ -95,18 +99,18 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
   private static final int __COUNT_ISSET_ID = 0;
   private BitSet __isset_bit_vector = new BitSet(1);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new EnumMap<_Fields, FieldMetaData>(_Fields.class) {{
-    put(_Fields.EXPRESSIONS, new FieldMetaData("expressions", TFieldRequirementType.REQUIRED, 
-        new ListMetaData(TType.LIST, 
-            new StructMetaData(TType.STRUCT, IndexExpression.class))));
-    put(_Fields.START_KEY, new FieldMetaData("start_key", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    put(_Fields.COUNT, new FieldMetaData("count", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.I32)));
-  }});
-
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    FieldMetaData.addStructMetaDataMap(IndexClause.class, metaDataMap);
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.EXPRESSIONS, new org.apache.thrift.meta_data.FieldMetaData("expressions", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, IndexExpression.class))));
+    tmpMap.put(_Fields.START_KEY, new org.apache.thrift.meta_data.FieldMetaData("start_key", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.COUNT, new org.apache.thrift.meta_data.FieldMetaData("count", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    metaDataMap = Collections.unmodifiableMap(tmpMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(IndexClause.class, metaDataMap);
   }
 
   public IndexClause() {
@@ -116,7 +120,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
 
   public IndexClause(
     List<IndexExpression> expressions,
-    byte[] start_key,
+    ByteBuffer start_key,
     int count)
   {
     this();
@@ -140,8 +144,8 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
       this.expressions = __this__expressions;
     }
     if (other.isSetStart_key()) {
-      this.start_key = new byte[other.start_key.length];
-      System.arraycopy(other.start_key, 0, start_key, 0, other.start_key.length);
+      this.start_key = org.apache.thrift.TBaseHelper.copyBinary(other.start_key);
+;
     }
     this.count = other.count;
   }
@@ -150,9 +154,12 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     return new IndexClause(this);
   }
 
-  @Deprecated
-  public IndexClause clone() {
-    return new IndexClause(this);
+  @Override
+  public void clear() {
+    this.expressions = null;
+    this.start_key = null;
+    this.count = 100;
+
   }
 
   public int getExpressionsSize() {
@@ -183,7 +190,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     this.expressions = null;
   }
 
-  /** Returns true if field expressions is set (has been asigned a value) and false otherwise */
+  /** Returns true if field expressions is set (has been assigned a value) and false otherwise */
   public boolean isSetExpressions() {
     return this.expressions != null;
   }
@@ -195,10 +202,20 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
   }
 
   public byte[] getStart_key() {
-    return this.start_key;
+    setStart_key(org.apache.thrift.TBaseHelper.rightSize(start_key));
+    return start_key == null ? null : start_key.array();
+  }
+
+  public ByteBuffer bufferForStart_key() {
+    return start_key;
   }
 
   public IndexClause setStart_key(byte[] start_key) {
+    setStart_key(start_key == null ? (ByteBuffer)null : ByteBuffer.wrap(start_key));
+    return this;
+  }
+
+  public IndexClause setStart_key(ByteBuffer start_key) {
     this.start_key = start_key;
     return this;
   }
@@ -207,7 +224,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     this.start_key = null;
   }
 
-  /** Returns true if field start_key is set (has been asigned a value) and false otherwise */
+  /** Returns true if field start_key is set (has been assigned a value) and false otherwise */
   public boolean isSetStart_key() {
     return this.start_key != null;
   }
@@ -232,7 +249,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     __isset_bit_vector.clear(__COUNT_ISSET_ID);
   }
 
-  /** Returns true if field count is set (has been asigned a value) and false otherwise */
+  /** Returns true if field count is set (has been assigned a value) and false otherwise */
   public boolean isSetCount() {
     return __isset_bit_vector.get(__COUNT_ISSET_ID);
   }
@@ -255,7 +272,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
       if (value == null) {
         unsetStart_key();
       } else {
-        setStart_key((byte[])value);
+        setStart_key((ByteBuffer)value);
       }
       break;
 
@@ -268,10 +285,6 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
       break;
 
     }
-  }
-
-  public void setFieldValue(int fieldID, Object value) {
-    setFieldValue(_Fields.findByThriftIdOrThrow(fieldID), value);
   }
 
   public Object getFieldValue(_Fields field) {
@@ -289,12 +302,12 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     throw new IllegalStateException();
   }
 
-  public Object getFieldValue(int fieldId) {
-    return getFieldValue(_Fields.findByThriftIdOrThrow(fieldId));
-  }
-
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
+    if (field == null) {
+      throw new IllegalArgumentException();
+    }
+
     switch (field) {
     case EXPRESSIONS:
       return isSetExpressions();
@@ -304,10 +317,6 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
       return isSetCount();
     }
     throw new IllegalStateException();
-  }
-
-  public boolean isSet(int fieldID) {
-    return isSet(_Fields.findByThriftIdOrThrow(fieldID));
   }
 
   @Override
@@ -337,7 +346,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     if (this_present_start_key || that_present_start_key) {
       if (!(this_present_start_key && that_present_start_key))
         return false;
-      if (!java.util.Arrays.equals(this.start_key, that.start_key))
+      if (!this.start_key.equals(that.start_key))
         return false;
     }
 
@@ -366,104 +375,111 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     int lastComparison = 0;
     IndexClause typedOther = (IndexClause)other;
 
-    lastComparison = Boolean.valueOf(isSetExpressions()).compareTo(isSetExpressions());
+    lastComparison = Boolean.valueOf(isSetExpressions()).compareTo(typedOther.isSetExpressions());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(expressions, typedOther.expressions);
+    if (isSetExpressions()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.expressions, typedOther.expressions);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetStart_key()).compareTo(typedOther.isSetStart_key());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = Boolean.valueOf(isSetStart_key()).compareTo(isSetStart_key());
+    if (isSetStart_key()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start_key, typedOther.start_key);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetCount()).compareTo(typedOther.isSetCount());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    lastComparison = TBaseHelper.compareTo(start_key, typedOther.start_key);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = Boolean.valueOf(isSetCount()).compareTo(isSetCount());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    lastComparison = TBaseHelper.compareTo(count, typedOther.count);
-    if (lastComparison != 0) {
-      return lastComparison;
+    if (isSetCount()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.count, typedOther.count);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
     }
     return 0;
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public _Fields fieldForId(int fieldId) {
+    return _Fields.findByThriftId(fieldId);
+  }
+
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
-      _Fields fieldId = _Fields.findByThriftId(field.id);
-      if (fieldId == null) {
-        TProtocolUtil.skip(iprot, field.type);
-      } else {
-        switch (fieldId) {
-          case EXPRESSIONS:
-            if (field.type == TType.LIST) {
+      switch (field.id) {
+        case 1: // EXPRESSIONS
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            {
+              org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
+              this.expressions = new ArrayList<IndexExpression>(_list12.size);
+              for (int _i13 = 0; _i13 < _list12.size; ++_i13)
               {
-                TList _list8 = iprot.readListBegin();
-                this.expressions = new ArrayList<IndexExpression>(_list8.size);
-                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
-                {
-                  IndexExpression _elem10;
-                  _elem10 = new IndexExpression();
-                  _elem10.read(iprot);
-                  this.expressions.add(_elem10);
-                }
-                iprot.readListEnd();
+                IndexExpression _elem14;
+                _elem14 = new IndexExpression();
+                _elem14.read(iprot);
+                this.expressions.add(_elem14);
               }
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              iprot.readListEnd();
             }
-            break;
-          case START_KEY:
-            if (field.type == TType.STRING) {
-              this.start_key = iprot.readBinary();
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case COUNT:
-            if (field.type == TType.I32) {
-              this.count = iprot.readI32();
-              setCountIsSet(true);
-            } else { 
-              TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-        }
-        iprot.readFieldEnd();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 2: // START_KEY
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.start_key = iprot.readBinary();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 3: // COUNT
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
+            this.count = iprot.readI32();
+            setCountIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        default:
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
+      iprot.readFieldEnd();
     }
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!isSetCount()) {
-      throw new TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'count' was not found in serialized data! Struct: " + toString());
     }
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
     if (this.expressions != null) {
       oprot.writeFieldBegin(EXPRESSIONS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRUCT, this.expressions.size()));
-        for (IndexExpression _iter11 : this.expressions)
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.expressions.size()));
+        for (IndexExpression _iter15 : this.expressions)
         {
-          _iter11.write(oprot);
+          _iter15.write(oprot);
         }
         oprot.writeListEnd();
       }
@@ -498,12 +514,7 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     if (this.start_key == null) {
       sb.append("null");
     } else {
-        int __start_key_size = Math.min(this.start_key.length, 128);
-        for (int i = 0; i < __start_key_size; i++) {
-          if (i != 0) sb.append(" ");
-          sb.append(Integer.toHexString(this.start_key[i]).length() > 1 ? Integer.toHexString(this.start_key[i]).substring(Integer.toHexString(this.start_key[i]).length() - 2).toUpperCase() : "0" + Integer.toHexString(this.start_key[i]).toUpperCase());
-        }
-        if (this.start_key.length > 128) sb.append(" ...");
+      org.apache.thrift.TBaseHelper.toString(this.start_key, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -514,15 +525,33 @@ public class IndexClause implements TBase<IndexClause._Fields>, java.io.Serializ
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
     if (expressions == null) {
-      throw new TProtocolException("Required field 'expressions' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'expressions' was not present! Struct: " + toString());
     }
     if (start_key == null) {
-      throw new TProtocolException("Required field 'start_key' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'start_key' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'count' because it's a primitive and you chose the non-beans generator.
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }
