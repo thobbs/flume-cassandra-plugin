@@ -1,42 +1,42 @@
 flume-cassandra-plugin
 ======================
 
-The flume-cassandra-plugin allows you to use Cassandra as a Flume sink.
+The flume-cassandra-plugin allows you to use [Apache Cassandra](http://cassandra.apache.org)
+as a [Flume](https://github.com/cloudera/flume) sink.
 
 Getting Started
 ---------------
 
-1. Copy the flume-cassandra-plugin directory into flume_dir/plugins/.  There
-should also be a helloworld directory there.
+1. Download flume-cassandra-plugin-X.Y.tar.gz from the Downloads section.
 
-2. cd into flume-cassandra-plugin
+2. Extract the tarball with `tar -xzf`.
 
-3. Build by running 'ant'.  A cassandra_plugin.jar file should be created.
+3. Set $FLUME_CLASSPATH for all terminals which will run Flume master or node:
+
+~~~~~~ {bash}
+export FLUME_CLASSPATH=`pwd`/flume-plugin-cassandrasink-0.8.jar:`pwd`/jug-asl-2.0.0.jar
+~~~~~~
 
 4. Modify flume-site.xml (you may start out by copying
 flume-site.xml.template and removing the body of the file) to include:
 
+~~~~~~ {xml}
+<configuration>
+  <property>
+    <name>flume.plugin.classes</name>
+    <value>org.apache.cassandra.plugins.SimpleCassandraSink,org.apache.cassandra.plugins.LogsandraSyslogSink</value>
+    <description>Comma separated list of plugin classes</description>
+  </property>
+</configuration>
+~~~~~~
 
-    <configuration>
-      <property>
-        <name>flume.plugin.classes</name>
-        <value>org.apache.cassandra.plugins.SimpleCassandraSink,org.apache.cassandra.plugins.LogsandraSyslogSink</value>
-        <description>Comma separated list of plugin classes</description>
-      </property>
-    </configuration>
+5. Start the flume master and a node.  The node should log something like:
 
-5. cd into the top-level flume directory (above plugins).
-
-6. Set FLUME_CLASSPATH for all terminals which will run Flume master or node:
-
-    export FLUME_CLASSPATH=`pwd`/plugins/flume-cassandra-plugin/cassandra_plugin.jar:`pwd`/plugins/flume-cassandra-plugin/lib/jug-asl-2.0.0.jar
-
-You may want to just put this in your ~/.bashrc file.  If you do, make sure to start a new terminal or run:
-
-    source ~/.bashrc
-
-in any terminals you will use.
-
+~~~~~~
+2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder simpleCassandraSink in org.apache.cassandra.plugins.SimpleCassandraSink
+...
+2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder logsandraSyslogSink in org.apache.cassandra.plugins.LogsandraSyslogSink
+~~~~~~
 
 Usage
 -----
@@ -56,14 +56,41 @@ The Simple Cassandra Sink requires four arguments for its constructor:
 4. A list Cassandra server hostname:port combinations (Strings)
 
 Cassandra must already be configured so that the keyspace and both of the
-column families must already exist.  The index column family should use
-a TimeUUIDType comparator.  For example, in cassandra.yaml you would have:
+column families must already exist. The index column family should use
+a TimeUUIDType comparator. The data storage column family can use BytesType.
 
-    - name: FlumeIndexes
-      compare_with: TimeUUIDType
-      comment: 'Stores the v1 uuids for log events'
+For example, in cassandra-cli you might create them like:
 
-The data storage column family can use BytesType.
+~~~~~~
+[default@unknown] connect localhost/9160;
+Connected to: "Test Cluster" on localhost/9160
+[default@unknown] create keyspace Keyspace1;
+23d30bd0-c16b-11e0-0000-242d50cf1ffd
+Waiting for schema agreement...
+... schemas agree across the cluster
+[default@unknown] use Keyspace1;
+Authenticated to keyspace: Keyspace1
+[default@Keyspace1] create column family FlumeData;
+2fcefa70-c16b-11e0-0000-242d50cf1ffd
+Waiting for schema agreement...
+... schemas agree across the cluster
+[default@Keyspace1] create column family FlumeIndexes with comparator = 'TimeUUIDType';
+4f1d8130-c16b-11e0-0000-242d50cf1ffd
+Waiting for schema agreement...
+... schemas agree across the cluster
+[default@Keyspace1] 
+~~~~~~
+
+When creating this sink with web UI (which you can access by default at 
+http://localhost:35871/flumeconfig.jsp), you will use a sink like:
+
+`simpleCassandraSink("Keyspace1", "FlumeData", "FlumeIndexes", "localhost:9160")`
+
+If you're new to flume and you want to test that the plugin works, I recommend
+using a Source like `asciisynth(20, 100)`. You should see 20 corresponding entries
+in each of the column families if you use `list` in cassandra-cli.
+
+#### How it Works
 
 When the Cassandra sink receives an event, it does the following:
 
@@ -78,66 +105,3 @@ This allows you to easily fetch all logs for a slice of time. Simply use
 something like get_slice() on the index column family to get the uuids you
 want for a particular slice of time, and then multiget the data column
 family using those uuids as the keys.
-
-The constructor string for this sink is "simpleCassandraSink".
-
-### Logsandra Syslog Sink
-
-The Logsandra Syslog Sink allows syslog messages to be stored in Cassandra
-in a way that Logsandra can make use of them.  You can find Logsandra
-here:
-
-* [Cassandra 0.6.x and pycassa 0.3.0 compatible version](http://github.com/jbohman/logsandra)
-
-* [Cassandra 0.7.0 and pycassa 0.5.0 compatible version](http://github.com/thobbs/logsandra)
-
-The Logsandra Syslog Sink accepts a list of "host:port" for its constructor.
-
-Cassandra must be configured to already have a 'logsandra' keyspace with two
-column families named 'entries' and 'by_date'.  They should similar to this
-in a cassandra.yaml:
-
-    keyspaces:
-        - name: logsandra
-          replica_placement_strategy: org.apache.cassandra.locator.RackUnawareStrategy
-          replication_factor: 1
-          column_families:
-
-            - name: entries
-              compare_with: BytesType
-
-            - name: by_date
-              compare_with: LongType
-
-This sink happily accepts input from a syslog source, such as syslogTcp or syslogUdp.
-
-The constructor string for this sink is "logsandraSyslogSink".
-
-In Logsandra, you may query by the following fields:
-
- - The source, which is a hostname or IP.  Example: "127.0.0.1"
- - The syslog facility.  Can be:
-      "kernel",
-      "user",
-      "mail",
-      "system",
-      "sec/auth", 
-      "syslog",
-      "lpr",
-      "news",
-      "uucp",
-      "clock",
-      "sec/auth",
-      "ftp",
-      "ntp",
-      "log audit",
-      "log alert",
-      "clock",
-      "local0", "local1", "local2", "local3",
-      "local4", "local5", "local6", "local7"
- - The syslog severity.  Can be:
-    - DEBUG
-    - INFO
-    - WARN
-    - ERROR
-    - FATAL 
