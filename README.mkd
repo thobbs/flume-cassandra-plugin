@@ -112,13 +112,14 @@ want for a particular slice of time, and then multiget the data column
 family using those uuids as the keys.
 
 
-#### Troubleshooting
+Troubleshooting
+---------------
 
-"No Cassandra servers available" Exception when trying to write data to a single server setup.
+#### "No Cassandra servers available" Exception when trying to write data to a single server setup.
 
 Your keyspace may of defaulted to the `org.apache.cassandra.locator.NetworkTopologyStrategy` 
 replication strategy resulting in Cassandra being unable to successfully commit. You can check 
-using `describe Keyspace1` on the cassandra-cli. Try using the following create keyspace 
+using `describe Keyspace1;` in the cassandra-cli. Try using the following create keyspace 
 statement instead:
 
 `create keyspace Keyspace1 with placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy' and strategy_options = {replication_factor:1};`
