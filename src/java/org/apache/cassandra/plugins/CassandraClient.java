@@ -130,7 +130,6 @@ public class CassandraClient {
   private class ServerSet {
 
     private ArrayList<String> servers;
-    private int serverIndex;
     private Queue<Pair> dead = new LinkedList<Pair>();
     private long retryTime;
 
@@ -150,7 +149,6 @@ public class CassandraClient {
       for(int i=0; i < servers.length; i++) {
         this.servers.add(servers[i]);
       }
-      this.serverIndex = 0;
     }
 
     /** Gets the next available server. */
@@ -165,7 +163,7 @@ public class CassandraClient {
       if(this.servers.isEmpty()) {
         throw new NoServersAvailableException();
       }
-      return this.servers.get(this.serverIndex++);
+      return this.servers.get(0);
     }
 
     /**
