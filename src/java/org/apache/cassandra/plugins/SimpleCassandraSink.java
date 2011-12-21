@@ -63,7 +63,10 @@ public class SimpleCassandraSink extends EventSink.Base {
   @Override
   public void append(Event event) throws IOException, InterruptedException {
 
-    long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
+    // Preserve timestamp from when the event was generated 
+    long timestamp = event.getTimestamp();  
+    if(timestamp == 0)
+    	timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     // Make the index column
     UUID uuid = uuidGen.generateTimeBasedUUID();
