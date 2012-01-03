@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.apache.flume</groupId>
+  <artifactId>flume-cassandra-plugin</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>datatest</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    
+    <sourceDirectory>src/java</sourceDirectory>
+  </build>
+   
+  <dependencies>
+
+	<dependency>
+		<groupId>org.apache.cassandra</groupId>
+		<artifactId>cassandra-all</artifactId>
+		<version>1.0.6</version>
+	</dependency>
+
+<dependency>
+	<groupId>org.safehaus.jug</groupId>
+	<artifactId>jug</artifactId>
+	<version>2.0.0</version>
+	<classifier>asl</classifier>
+</dependency>
+
+<dependency>
+	<groupId>com.cloudera.flume</groupId>
+	<artifactId>flume</artifactId>
+	<version>0.9.3-CDH3B4</version>
+</dependency>
+
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.3.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <repositories>
+	<repository>
+		<id>cdh repository</id>
+		<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+	</repository>
+  </repositories>
+</project>
