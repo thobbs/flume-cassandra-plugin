@@ -82,7 +82,7 @@ public class SimpleCassandraSink extends EventSink.Base {
 			dataColumn.setTimestamp(timestamp);
 
     // Insert the index
-    this.cClient.insert(this.getKey(), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
+    this.cClient.insert(this.getKey(timestamp), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
     // Insert the data (row key is the uuid and there is only one column)
     this.cClient.insert(uuid.toString().getBytes(), this.dataColumnFamily, new Column[] {dataColumn}, ConsistencyLevel.QUORUM);
     super.append(event);
@@ -92,8 +92,10 @@ public class SimpleCassandraSink extends EventSink.Base {
    * Returns a String representing the current date to be used as
    * a key.  This has the format "YYYYMMDDHH".
    */
-  private byte[] getKey() {
+  private byte[] getKey(long timestamp) {
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+0"));
+    cal.setTimeInMillis(timestamp);
+    
     int day = cal.get(Calendar.DAY_OF_MONTH);
     int month = cal.get(Calendar.MONTH);
     int year = cal.get(Calendar.YEAR);
