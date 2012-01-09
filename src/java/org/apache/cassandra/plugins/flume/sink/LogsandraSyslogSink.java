@@ -1,4 +1,4 @@
-package org.apache.cassandra.plugins;
+package org.apache.cassandra.plugins.flume.sink;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -20,7 +20,7 @@ import com.cloudera.flume.handlers.syslog.SyslogConsts;
 
 /**
  * Uses Cassandra as a Logsandra compatible sink for syslog messages.
- * 
+ *
  * When the sink receives an event, it does the following:
  *
  * 1. Inserts the entry in to the "entries" column family with
@@ -32,17 +32,17 @@ import com.cloudera.flume.handlers.syslog.SyslogConsts;
  * can find Logsandra at http://github.com/jbohman/logsandra
  */
 public class LogsandraSyslogSink extends EventSink.Base {
-  
+
   private static final String KEYSPACE = "logsandra";
   private static final String ENTRIES = "entries";
   private static final String BY_DATE = "by_date";
-  
+
   // Column names
   private static final byte[] IDENT_NAME = "ident".getBytes();
   private static final byte[] SOURCE_NAME = "source".getBytes();
   private static final byte[] DATE_NAME = "date".getBytes();
   private static final byte[] ENTRY_NAME = "entry".getBytes();
-    
+
   private CassandraClient cClient;
 
   private static final UUIDGenerator uuidGen = UUIDGenerator.getInstance();
@@ -50,7 +50,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
   private static final long MILLI_TO_MICRO = 1000; // 1ms = 1000us
 
   public LogsandraSyslogSink(String[] servers) {
-    
+
     this.cClient = new CassandraClient(KEYSPACE, servers);
   }
 
@@ -61,7 +61,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
   /**
    * Writes the message to Cassandra in a Logsandra compatible way.
- * @throws InterruptedException 
+ * @throws InterruptedException
    */
   @Override
   public void append(Event event) throws IOException, InterruptedException {
@@ -69,13 +69,13 @@ public class LogsandraSyslogSink extends EventSink.Base {
     long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     UUID uuid = uuidGen.generateTimeBasedUUID();
-    
+
     String date = getDate();
     String host = event.getHost();
     String facility = SyslogConsts.FACILITY[event.get(SyslogConsts.SYSLOG_FACILITY)[0]];
     String severity = SyslogConsts.SEVERITY[event.get(SyslogConsts.SYSLOG_SEVERITY)[0]].toString();
-    
-    StringBuffer eventInfo = new StringBuffer();
+
+    StringBuilder eventInfo = new StringBuilder();
     eventInfo.append(date);
     eventInfo.append(' ');
     eventInfo.append(host);
@@ -84,7 +84,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
     eventInfo.append(' ');
     eventInfo.append(severity);
     eventInfo.append(' ');
-    
+
     byte[] eventBody = event.getBody();
     byte[] eventInfoBytes = eventInfo.toString().getBytes();
     byte[] finalBytes = new byte[eventInfoBytes.length + eventBody.length];
@@ -92,39 +92,39 @@ public class LogsandraSyslogSink extends EventSink.Base {
     for(int i = 0; i < eventInfoBytes.length; i++) {
       finalBytes[i] = eventInfoBytes[i];
     }
-    
+
     for(int i = 0; i < eventBody.length; i++) {
       finalBytes[i + eventInfoBytes.length] = eventBody[i];
     }
-    
+
     Column identColumn = new Column();
-    	identColumn.setName(IDENT_NAME);
-    	identColumn.setValue("ident".getBytes());
-    	identColumn.setTimestamp(timestamp);
-    	
+        identColumn.setName(IDENT_NAME);
+        identColumn.setValue("ident".getBytes());
+        identColumn.setTimestamp(timestamp);
+
     Column sourceColumn = new Column();
-			sourceColumn.setName(SOURCE_NAME);
-			sourceColumn.setValue(host.getBytes());
-			sourceColumn.setTimestamp(timestamp);
-			
+            sourceColumn.setName(SOURCE_NAME);
+            sourceColumn.setValue(host.getBytes());
+            sourceColumn.setTimestamp(timestamp);
+
     Column dateColumn = new Column();
-			dateColumn.setName(DATE_NAME);
-			dateColumn.setValue(date.getBytes());
-			dateColumn.setTimestamp(timestamp);    
-    
+            dateColumn.setName(DATE_NAME);
+            dateColumn.setValue(date.getBytes());
+            dateColumn.setTimestamp(timestamp);
+
     Column entryColumn = new Column();
-			entryColumn.setName(ENTRY_NAME);
-			entryColumn.setValue(finalBytes);
-			entryColumn.setTimestamp(timestamp);
-    
+            entryColumn.setName(ENTRY_NAME);
+            entryColumn.setValue(finalBytes);
+            entryColumn.setTimestamp(timestamp);
+
     Column[] entryColumns = {identColumn, sourceColumn, dateColumn, entryColumn};
-    
+
     Long time = System.currentTimeMillis() * MILLI_TO_MICRO;
     Column timeColumn = new Column();
-			timeColumn.setName(toBytes(time));
-			timeColumn.setValue(uuid.toString().getBytes());
-			timeColumn.setTimestamp(timestamp);
-    
+            timeColumn.setName(toBytes(time));
+            timeColumn.setValue(uuid.toString().getBytes());
+            timeColumn.setTimestamp(timestamp);
+
     Column[] byDateColumns = {timeColumn};
 
     // Insert the entry
@@ -139,7 +139,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
     this.cClient.insert(
         SyslogConsts.SEVERITY[event.get(SyslogConsts.SYSLOG_SEVERITY)[0]].toString().getBytes(),
         BY_DATE, byDateColumns, ConsistencyLevel.QUORUM);
-    
+
     super.append(event);
   }
 
@@ -170,7 +170,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
     int minute = cal.get(Calendar.MINUTE);
     int second = cal.get(Calendar.SECOND);
 
-    StringBuffer buff = new StringBuffer();
+    StringBuilder buff = new StringBuilder();
     buff.append(year);
     if(month < 10)
       buff.append('0');

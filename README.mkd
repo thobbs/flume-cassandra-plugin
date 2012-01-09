@@ -24,7 +24,7 @@ flume-site.xml.template and removing the body of the file) to include:
 <configuration>
   <property>
     <name>flume.plugin.classes</name>
-    <value>org.apache.cassandra.plugins.SimpleCassandraSink,org.apache.cassandra.plugins.LogsandraSyslogSink</value>
+    <value>org.apache.cassandra.plugins.flume.sink.SimpleCassandraSink,org.apache.cassandra.plugins.flume.sink.LogsandraSyslogSink</value>
     <description>Comma separated list of plugin classes</description>
   </property>
 </configuration>
@@ -33,9 +33,9 @@ flume-site.xml.template and removing the body of the file) to include:
 5. Start the flume master and a node.  The node should log something like:
 
 ~~~~~~
-2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder simpleCassandraSink in org.apache.cassandra.plugins.SimpleCassandraSink
+2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder simpleCassandraSink in org.apache.cassandra.plugins.flume.sink.SimpleCassandraSink
 ...
-2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder logsandraSyslogSink in org.apache.cassandra.plugins.LogsandraSyslogSink
+2011-08-07 21:29:54,793 [main] INFO conf.SinkFactoryImpl: Found sink builder logsandraSyslogSink in org.apache.cassandra.plugins.flume.sink.LogsandraSyslogSink
 ~~~~~~
 
 Usage
@@ -78,10 +78,10 @@ Waiting for schema agreement...
 4f1d8130-c16b-11e0-0000-242d50cf1ffd
 Waiting for schema agreement...
 ... schemas agree across the cluster
-[default@Keyspace1] 
+[default@Keyspace1]
 ~~~~~~
 
-When creating this sink with web UI (which you can access by default at 
+When creating this sink with web UI (which you can access by default at
 http://localhost:35871/flumeconfig.jsp), you will use a sink like:
 
 `simpleCassandraSink("Keyspace1", "FlumeData", "FlumeIndexes", "localhost:9160")`
