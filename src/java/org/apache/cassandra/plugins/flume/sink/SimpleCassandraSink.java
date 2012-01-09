@@ -1,4 +1,4 @@
-package org.apache.cassandra.plugins;
+package org.apache.cassandra.plugins.flume.sink;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -20,7 +20,7 @@ import com.cloudera.util.Pair;
 
 /**
  * Allows Cassandra to be used as a sink, primarily for log messages.
- * 
+ *
  * When the Cassandra sink receives an event, it does the following:
  *
  * 1. Creates a column where the name is a type 1 UUID (timestamp based) and the
@@ -30,10 +30,10 @@ import com.cloudera.util.Pair;
  * SimpleCassandraSink primarily targets log storage right now.
  */
 public class SimpleCassandraSink extends EventSink.Base {
-  
+
   private String dataColumnFamily;
   private String indexColumnFamily;
-    
+
   private CassandraClient cClient;
 
   private static final UUIDGenerator uuidGen = UUIDGenerator.getInstance();
@@ -44,7 +44,7 @@ public class SimpleCassandraSink extends EventSink.Base {
       String indexColumnFamily, String[] servers) {
     this.dataColumnFamily = dataColumnFamily;
     this.indexColumnFamily = indexColumnFamily;
-    
+
     this.cClient = new CassandraClient(keyspace, servers);
   }
 
@@ -58,7 +58,7 @@ public class SimpleCassandraSink extends EventSink.Base {
    * The key is the current date (YYYYMMDD) and the column
    * name is a type 1 UUID, which includes a time stamp
    * component.
- * @throws InterruptedException 
+ * @throws InterruptedException
    */
   @Override
   public void append(Event event) throws IOException, InterruptedException {
@@ -68,15 +68,15 @@ public class SimpleCassandraSink extends EventSink.Base {
     // Make the index column
     UUID uuid = uuidGen.generateTimeBasedUUID();
     Column indexColumn = new Column();
-			indexColumn.setName(uuid.toByteArray());
-			indexColumn.setValue(new byte[0]);
-			indexColumn.setTimestamp(timestamp);
+            indexColumn.setName(uuid.toByteArray());
+            indexColumn.setValue(new byte[0]);
+            indexColumn.setTimestamp(timestamp);
 
     // Make the data column
     Column dataColumn = new Column();
-			dataColumn.setName("data".getBytes());
-			dataColumn.setValue(event.getBody());
-			dataColumn.setTimestamp(timestamp);
+            dataColumn.setName("data".getBytes());
+            dataColumn.setValue(event.getBody());
+            dataColumn.setTimestamp(timestamp);
 
     // Insert the index
     this.cClient.insert(this.getKey(), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
@@ -96,7 +96,7 @@ public class SimpleCassandraSink extends EventSink.Base {
     int year = cal.get(Calendar.YEAR);
     int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-    StringBuffer buff = new StringBuffer();
+    StringBuilder buff = new StringBuilder();
     buff.append(year);
     if(month < 10)
       buff.append('0');

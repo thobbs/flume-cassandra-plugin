@@ -1,4 +1,4 @@
-package org.apache.cassandra.plugins;
+package org.apache.cassandra.plugins.flume.sink;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
