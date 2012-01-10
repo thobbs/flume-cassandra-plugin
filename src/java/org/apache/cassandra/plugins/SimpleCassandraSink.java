@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import org.apache.cassandra.thrift.*;
-
-import org.safehaus.uuid.UUID;
-import org.safehaus.uuid.UUIDGenerator;
 
 import com.cloudera.flume.conf.Context;
 import com.cloudera.flume.conf.SinkFactory.SinkBuilder;
@@ -35,8 +33,6 @@ public class SimpleCassandraSink extends EventSink.Base {
   private String indexColumnFamily;
     
   private CassandraClient cClient;
-
-  private static final UUIDGenerator uuidGen = UUIDGenerator.getInstance();
 
   private static final long MILLI_TO_MICRO = 1000; // 1ms = 1000us
 
@@ -69,7 +65,7 @@ public class SimpleCassandraSink extends EventSink.Base {
     	timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     // Make the index column
-    UUID uuid = uuidGen.generateTimeBasedUUID();
+    UUID uuid = TimeUUIDUtils.getTimeUUID(timestamp);
     Column indexColumn = new Column();
 			indexColumn.setName(uuid.toByteArray());
 			indexColumn.setValue(new byte[0]);
