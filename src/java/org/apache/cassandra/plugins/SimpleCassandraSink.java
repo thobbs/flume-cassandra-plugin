@@ -67,7 +67,7 @@ public class SimpleCassandraSink extends EventSink.Base {
     // Make the index column
     UUID uuid = TimeUUIDUtils.getTimeUUID(timestamp);
     Column indexColumn = new Column();
-			indexColumn.setName(uuid.toByteArray());
+			indexColumn.setName(TimeUUIDUtils.asByteArray(uuid));
 			indexColumn.setValue(new byte[0]);
 			indexColumn.setTimestamp(timestamp);
 
