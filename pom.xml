@@ -48,6 +48,15 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>
+                        ${project.build.directory}
+                    </outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -64,6 +73,7 @@
             <groupId>com.cloudera.flume</groupId>
             <artifactId>flume</artifactId>
             <version>0.9.3-CDH3B4</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
