@@ -14,7 +14,7 @@ Getting Started
 3. Set $FLUME_CLASSPATH for all terminals which will run Flume master or node:
 
 ~~~~~~ {bash}
-export FLUME_CLASSPATH=`pwd`/flume-plugin-cassandrasink-0.8.jar:`pwd`/jug-asl-2.0.0.jar
+export FLUME_CLASSPATH=`pwd`/flume-cassandra-plugin-1.0.0.jar:`pwd`/uuid-3.2.0.jar:`pwd`/cassandra-thrift-1.0.6.jar
 ~~~~~~
 
 4. Modify flume-site.xml (you may start out by copying

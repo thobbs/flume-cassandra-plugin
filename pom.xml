@@ -51,11 +51,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>
-                        ${project.build.directory}
-                    </outputDirectory>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -67,6 +75,7 @@
             <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-thrift</artifactId>
             <version>1.0.6</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -80,6 +89,7 @@
             <groupId>com.github.stephenc.eaio-uuid</groupId>
             <artifactId>uuid</artifactId>
             <version>3.2.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
