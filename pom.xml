@@ -1,74 +1,96 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.apache.flume</groupId>
-  <artifactId>flume-cassandra-plugin</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
+    <groupId>org.apache.flume</groupId>
+    <artifactId>flume-cassandra-plugin</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-  <name>Flume Cassandra Plugin</name>
-  <url>http://maven.apache.org</url>
+    <name>Flume Cassandra Plugin</name>
+    <url>http://github.com/thobbs/flume-cassandra-plugin</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <distribution>repo</distribution>
+            <url>https://github.com/thobbs/flume-cassandra-plugin/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/thobbs/flume-cassandra-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:thobbs/flume-cassandra-plugin.git</developerConnection>
+        <url>http://github.com/thobbs/flume-cassandra-plugin/tree/master/</url>
+    </scm>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <issueManagement>
+        <system>github</system>
+        <url>http://github.com/thobbs/flume-cassandra-plugin/issues</url>
+    </issueManagement>
 
-  <build>
-    <directory>target</directory>
-    <outputDirectory>target/classes</outputDirectory>
+    <distributionManagement>
+        <site>
+            <id>github.com</id>
+            <url>gitsite:git@github.com/thobbs/flume-cassandra-plugin.git</url>
+        </site>
+    </distributionManagement>
 
-    <sourceDirectory>src/java</sourceDirectory>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-  <dependencies>
 
-  <dependency>
-    <groupId>org.apache.cassandra</groupId>
-    <artifactId>cassandra-all</artifactId>
-    <version>1.0.6</version>
-  </dependency>
+    <dependencies>
 
-  <dependency>
-    <groupId>com.cloudera.flume</groupId>
-    <artifactId>flume</artifactId>
-    <version>0.9.3-CDH3B4</version>
-  </dependency>
+        <dependency>
+            <groupId>org.apache.cassandra</groupId>
+            <artifactId>cassandra-all</artifactId>
+            <version>1.0.6</version>
+        </dependency>
 
-  <dependency>
-    <groupId>com.eaio.uuid</groupId>
-    <artifactId>uuid</artifactId>
-    <version>3.2</version>
-  </dependency>
+        <dependency>
+            <groupId>org.apache.cassandra</groupId>
+            <artifactId>cassandra-thrift</artifactId>
+            <version>1.0.6</version>
+        </dependency>
 
-  <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>6.3.1</version>
-      <scope>test</scope>
-  </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>com.cloudera.flume</groupId>
+            <artifactId>flume</artifactId>
+            <version>0.9.3-CDH3B4</version>
+        </dependency>
 
-  <repositories>
-    <repository>
-      <id>cdh repository</id>
-      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-    </repository>
-    
-    <repository>
-  	  <id>eaio.com</id>
-      <url>http://eaio.com/maven2</url>
-    </repository>    
-  </repositories>
+        <dependency>
+            <groupId>com.github.stephenc.eaio-uuid</groupId>
+            <artifactId>uuid</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.3.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>cdh repository</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+    </repositories>
 </project>
