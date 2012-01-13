@@ -41,13 +41,6 @@
   </dependency>
 
   <dependency>
-    <groupId>org.safehaus.jug</groupId>
-    <artifactId>jug</artifactId>
-    <version>2.0.0</version>
-    <classifier>asl</classifier>
-  </dependency>
-
-  <dependency>
     <groupId>com.cloudera.flume</groupId>
     <artifactId>flume</artifactId>
     <version>0.9.3-CDH3B4</version>
