@@ -1,15 +1,10 @@
 package org.apache.cassandra.plugins.flume.sink;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ConsistencyLevel;
-import org.safehaus.uuid.UUID;
-import org.safehaus.uuid.UUIDGenerator;
 
 import com.cloudera.flume.conf.Context;
 import com.cloudera.flume.conf.SinkFactory.SinkBuilder;
@@ -45,8 +40,6 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
   private CassandraClient cClient;
 
-  private static final UUIDGenerator uuidGen = UUIDGenerator.getInstance();
-
   private static final long MILLI_TO_MICRO = 1000; // 1ms = 1000us
 
   public LogsandraSyslogSink(String[] servers) {
@@ -68,7 +61,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
     long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
-    UUID uuid = uuidGen.generateTimeBasedUUID();
+    UUID uuid = TimeUUIDUtils.getTimeUUID(timestamp);
 
     String date = getDate();
     String host = event.getHost();
@@ -119,9 +112,9 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
     Column[] entryColumns = {identColumn, sourceColumn, dateColumn, entryColumn};
 
-    Long time = System.currentTimeMillis() * MILLI_TO_MICRO;
+
     Column timeColumn = new Column();
-            timeColumn.setName(toBytes(time));
+            timeColumn.setName(toBytes(timestamp));
             timeColumn.setValue(uuid.toString().getBytes());
             timeColumn.setTimestamp(timestamp);
 
