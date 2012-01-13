@@ -53,19 +53,29 @@
     <version>0.9.3-CDH3B4</version>
   </dependency>
 
+  <dependency>
+    <groupId>com.eaio.uuid</groupId>
+    <artifactId>uuid</artifactId>
+    <version>3.2</version>
+  </dependency>
 
-    <dependency>
+  <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>6.3.1</version>
       <scope>test</scope>
-    </dependency>
+  </dependency>
   </dependencies>
 
   <repositories>
-  <repository>
-    <id>cdh repository</id>
-    <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-  </repository>
+    <repository>
+      <id>cdh repository</id>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+    </repository>
+    
+    <repository>
+  	  <id>eaio.com</id>
+      <url>http://eaio.com/maven2</url>
+    </repository>    
   </repositories>
 </project>

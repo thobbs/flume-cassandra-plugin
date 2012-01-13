@@ -86,9 +86,14 @@ http://localhost:35871/flumeconfig.jsp), you will use a sink like:
 
 `simpleCassandraSink("Keyspace1", "FlumeData", "FlumeIndexes", "localhost:9160")`
 
+For multiple servers use:
+
+`simpleCassandraSink("Keyspace1", "FlumeData", "FlumeIndexes", "localhost:9160", "hostname2:9160", "hostname3:9160")`
+
 If you're new to flume and you want to test that the plugin works, I recommend
 using a Source like `asciisynth(20, 100)`. You should see 20 corresponding entries
 in each of the column families if you use `list` in cassandra-cli.
+
 
 #### How it Works
 
@@ -105,3 +110,17 @@ This allows you to easily fetch all logs for a slice of time. Simply use
 something like get_slice() on the index column family to get the uuids you
 want for a particular slice of time, and then multiget the data column
 family using those uuids as the keys.
+
+
+Troubleshooting
+---------------
+
+#### "No Cassandra servers available" Exception when trying to write data to a single server setup.
+
+Your keyspace may of defaulted to the `org.apache.cassandra.locator.NetworkTopologyStrategy` 
+replication strategy resulting in Cassandra being unable to successfully commit. You can check 
+using `describe Keyspace1;` in the cassandra-cli. Try using the following create keyspace 
+statement instead:
+
+`create keyspace Keyspace1 with placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy' and strategy_options = {replication_factor:1};`
+

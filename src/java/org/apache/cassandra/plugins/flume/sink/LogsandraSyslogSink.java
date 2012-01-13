@@ -61,7 +61,7 @@ public class LogsandraSyslogSink extends EventSink.Base {
 
   /**
    * Writes the message to Cassandra in a Logsandra compatible way.
- * @throws InterruptedException
+   * @throws InterruptedException
    */
   @Override
   public void append(Event event) throws IOException, InterruptedException {

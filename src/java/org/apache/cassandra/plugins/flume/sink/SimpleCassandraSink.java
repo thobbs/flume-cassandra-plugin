@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import org.apache.cassandra.thrift.*;
-
-import org.safehaus.uuid.UUID;
-import org.safehaus.uuid.UUIDGenerator;
 
 import com.cloudera.flume.conf.Context;
 import com.cloudera.flume.conf.SinkFactory.SinkBuilder;
@@ -35,8 +33,6 @@ public class SimpleCassandraSink extends EventSink.Base {
   private String indexColumnFamily;
 
   private CassandraClient cClient;
-
-  private static final UUIDGenerator uuidGen = UUIDGenerator.getInstance();
 
   private static final long MILLI_TO_MICRO = 1000; // 1ms = 1000us
 
@@ -63,23 +59,26 @@ public class SimpleCassandraSink extends EventSink.Base {
   @Override
   public void append(Event event) throws IOException, InterruptedException {
 
-    long timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
+    // Preserve timestamp from when the event was generated 
+    long timestamp = event.getTimestamp();  
+    if(timestamp == 0)
+    	timestamp = System.currentTimeMillis() * MILLI_TO_MICRO;
 
     // Make the index column
-    UUID uuid = uuidGen.generateTimeBasedUUID();
+    UUID uuid = TimeUUIDUtils.getTimeUUID(timestamp);
     Column indexColumn = new Column();
-            indexColumn.setName(uuid.toByteArray());
-            indexColumn.setValue(new byte[0]);
-            indexColumn.setTimestamp(timestamp);
+    indexColumn.setName(TimeUUIDUtils.asByteArray(uuid));
+    indexColumn.setValue(new byte[0]);
+    indexColumn.setTimestamp(timestamp);
 
     // Make the data column
     Column dataColumn = new Column();
-            dataColumn.setName("data".getBytes());
-            dataColumn.setValue(event.getBody());
-            dataColumn.setTimestamp(timestamp);
+    dataColumn.setName("data".getBytes());
+    dataColumn.setValue(event.getBody());
+    dataColumn.setTimestamp(timestamp);
 
     // Insert the index
-    this.cClient.insert(this.getKey(), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
+    this.cClient.insert(this.getKey(timestamp), this.indexColumnFamily, new Column[] {indexColumn}, ConsistencyLevel.QUORUM);
     // Insert the data (row key is the uuid and there is only one column)
     this.cClient.insert(uuid.toString().getBytes(), this.dataColumnFamily, new Column[] {dataColumn}, ConsistencyLevel.QUORUM);
     super.append(event);
@@ -89,8 +88,10 @@ public class SimpleCassandraSink extends EventSink.Base {
    * Returns a String representing the current date to be used as
    * a key.  This has the format "YYYYMMDDHH".
    */
-  private byte[] getKey() {
+  private byte[] getKey(long timestamp) {
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+0"));
+    cal.setTimeInMillis(timestamp);
+    
     int day = cal.get(Calendar.DAY_OF_MONTH);
     int month = cal.get(Calendar.MONTH);
     int year = cal.get(Calendar.YEAR);
